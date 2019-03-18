@@ -7,12 +7,12 @@ con.db = {
         password: 'special',
         database: 'cprinting'
     },
-    // live: {
-    //     'host': 'address',
-    //     user: 'user',
-    //     password: 'something',
-    //     database: 'cprinting'
-    // }
+    live: {
+        'host': 'address',
+        user: 'user',
+        password: 'something',
+        database: 'cprinting'
+    }
 }
 con.keepalive = () => {
     con.realConnect = mysql.createConnection((process.env.NODE_ENV === 'dev' ? con.db.local : con.db.live))

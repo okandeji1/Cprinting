@@ -8,24 +8,29 @@ var passwordHash = require('password-hash');
 // router.use(bodyParser.json());
 // router.use(bodyParser.urlencoded({ extended: true }))
 
-cprinting = {}
+user = {}
     // middleware function to check for logged-in users
 var sessionChecker = (req, res, next) => {
     if (req.session.user && req.cookies.user_sid) {
-        res.redirect('/dashboard');
+        res.redirect('/dashboard', { layout: 'layouts/clothes' });
     } else {
         next();
     }
 };
 
+router.get('/', (req, res) => {
+    res.render('clothes/index', { layout: 'layouts/clothes' });
+});
+
+
 /* GET home page. */
 router.get('/login', sessionChecker, (req, res, next) => {
-    res.render('index', { title: 'Express' });
+    res.render('index', { layout: 'layouts/clothes' });
 });
 
 /* GET home page. */
 router.get('/register', sessionChecker, (req, res, next) => {
-    res.render('register', { title: 'Express' });
+    res.render('register', { layout: 'layouts/clothes' });
 });
 
 
@@ -52,7 +57,7 @@ router.post('/login', async(req, res) => {
             return;
         }
         //calling the select function to check the database if the user exist
-        let loginUser = await cprinting._checkUser(email);
+        let loginUser = await user._checkUser(email);
         if (loginUser.hasOwnProperty('error')) {
             console.log(loginUser.error)
             return
@@ -157,7 +162,7 @@ router.post('/register', async(req, res) => {
     let hashPassword = passwordHash.generate(password)
 
     //function to check if the user already exist in the database
-    let checkUserInfo = await cprinting._checkUser(email);
+    let checkUserInfo = await user._checkUser(email);
     if (checkUserInfo.hasOwnProperty('error')) {
         console.log(checkUserInfo.error)
         return
@@ -166,7 +171,7 @@ router.post('/register', async(req, res) => {
         //passing the user submited params into an array 
         let userInfo = [firstname, lastname, email, hashPassword, phone];
         //insert function to insert the records into the databse
-        let userReg = await cprinting._registerUser(userInfo);
+        let userReg = await user._registerUser(userInfo);
         if (userReg.hasOwnProperty('error')) {
             console.log(userReg.error)
             return
@@ -186,7 +191,7 @@ router.post('/register', async(req, res) => {
 })
 
 // to check if the username and password match the details in the database 
-cprinting._checkUser = (email) => {
+user._checkUser = (email) => {
     return new Promise(resolve => {
         con.realConnect.query('SELECT *  FROM `users` WHERE `email` = ?', email, (err, data) => {
             if (err) {
@@ -199,7 +204,7 @@ cprinting._checkUser = (email) => {
 }
 
 // Registering user query
-cprinting._registerUser = (userInfo) => {
+user._registerUser = (userInfo) => {
     return new Promise(resolve => {
         con.realConnect.query('INSERT INTO `users` (`firstname`, `lastname`, `email`, `password`, `phone`) VALUES(?, ?, ?, ?, ?)', userInfo, (err, done) => {
             if (err) {

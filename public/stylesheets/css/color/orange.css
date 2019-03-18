@@ -1,0 +1,328 @@
+/*Background Color*/
+
+.fp-btn,
+.fp-btn-2nd:hover,.fp-btn-2nd:focus,
+.fp-latest-project ul.filter li:after,
+.fp-latest-project ul.filter li.active:after,.fp-latest-project ul.filter li:hover:after,
+.fp-latest-project.light-version ul.filter li:after,
+.fp-latest-project.light-version ul.filter li.active:after,.fp-latest-project.light-version ul.filter li:hover:after,
+.fp-section-title h2:before,
+.fp-section-title h2:after,
+.fp-icon-box:hover .fp-icon,
+.fp-icon-box-6 .fp-icon,
+.fp-counter,
+.fp-testimonials-2 .owl-pagination .owl-page.active span,.fp-testimonials-2 .owl-pagination .owl-page:hover span,
+.fp-testimonials-2.style-2 .owl-pagination .owl-page.active span,.fp-testimonials-2.style-2 .owl-pagination .owl-page:hover span,
+.fp-testimonials-3 .owl-pagination .owl-page.active span,.fp-testimonials-3 .owl-pagination .owl-page:hover span,
+.fp-faq.active h2,
+.fp-faq:hover h2,
+.fp-accordion .icons:hover,
+.fp-accordion.active .icons,
+.fp-accordion.style-1 .icons:hover,
+.fp-accordion.style-1.active .icons,
+.fp-button a:hover,
+.fp-feature-product .owl-controls .owl-buttons div:hover,
+.mejs-container .mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-current,.mejs-container .mejs-controls .mejs-volume-button .mejs-volume-slider .mejs-volume-handle,.mejs-container .mejs-controls .mejs-volume-button .mejs-volume-slider .mejs-volume-current,
+.mejs-container .mejs-controls .mejs-time-rail .mejs-time-current,
+.fp-project-carousel .owl-controls .owl-buttons div:hover{
+	background-color: #ff5a00;
+}
+
+.fp-button a,
+.fp-testimonials-3 .owl-pagination .owl-page.active span,
+.fp-testimonials-3 .owl-pagination .owl-page:hover span,
+.fp-testimonials-2 .owl-pagination .owl-page.active span,
+.fp-testimonials-2 .owl-pagination .owl-page:hover span,
+.fp-testimonials-2.style-2 .owl-pagination .owl-page.active span,
+.fp-testimonials-2.style-2 .owl-pagination .owl-page:hover span,
+div.main-background-color,
+.overlay {
+	background-color: #ff5a00 !important;
+}
+
+.fp-service-2 .overlay {
+	background-color: rgba( 0, 0, 0, 0.6 ) !important;
+}
+
+/*Border Color*/
+
+.fp-icon-box:hover,
+.fp-testimonials .owl-controls .owl-buttons div:hover,
+.fp-testimonials-2 .owl-pagination .owl-page span,
+.fp-testimonials-3 .owl-pagination .owl-page span,
+.fp-accordion.style-1 .icons,
+.fp-feature-product .owl-controls .owl-buttons div:hover{
+	border-color: #ff5a00;
+}
+/*Border Bottom*/
+
+.fp-testimonials-3 .testi-item{
+	border-bottom-color: #ff5a00;
+}
+/*Color*/
+
+.fp-project-carousel .cat-project,
+.fp-latest-post .item-latest-post .entry-thumbnail a i,
+.fp-icon-box .fp-icon,
+.fp-icon-box-2 .sub-title,
+.fp-icon-box-2.light-version .fp-icon,
+.fp-icon-box-3 .fp-icon,
+.fp-icon-box-4 .fp-icon,
+.fp-icon-box-5 .fp-icon,
+.fp-testimonials-grid .testi-job,
+.fp-testimonials i,
+.fp-testimonials .owl-controls .owl-buttons div:hover .fa,
+.fp-testimonials-2 .testi-job,
+.fp-testimonials-3 .testi-job,
+.fp-accordion .icons .fa,
+.fp-accordion.style-1 .icons .fa,
+.fp-phone .hotline span,
+.fp-phone .hotline i,
+.fp-team .team-member ul li:hover a,
+.fp-team .job,
+.mejs-container .mejs-controls .mejs-time span,
+.main-color{
+	color: #ff5a00;
+}
+
+
+/*Background Color*/
+
+.fp-form-3 .submit input,
+.fp-form-email input[type="submit"],
+.mejs-container .mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-current,.mejs-container .mejs-controls .mejs-volume-button .mejs-volume-slider .mejs-volume-handle,.mejs-container .mejs-controls .mejs-volume-button .mejs-volume-slider .mejs-volume-current,
+.mejs-container .mejs-controls .mejs-time-rail .mejs-time-current,
+.header-v4 .header-main,
+.header-v5 .header-extra-text a,
+.header-v5 .header-extra-text a:before,
+.main-nav li li:hover,
+.numeric-navigation .page-numbers:hover,.numeric-navigation .page-numbers.current,
+.project-nav-ajax .numeric-navigation .page-numbers.next,
+.fp-btn,
+.fp-btn-2nd:hover,.fp-btn-2nd:focus,
+.socials-share a:hover,
+.service .service-thumbnail a:before,
+.project blockquote:before,
+.single-project-title:before,.fp-related-project h3:before,
+.single-project-title:after,.fp-related-project h3:after,
+.fp-related-project .owl-controls .owl-buttons div:hover,
+.all-project ul.filter li:after,
+.all-project ul.filter li.active:after,.all-project ul.filter li:hover:after,
+.project-inner:before,
+.error404 .error-404 .search-form:after,
+.single-service blockquote:before,
+.comments-title:before,.comment-reply-title:before,.comments-title:after,.comment-reply-title:after,
+.comment-respond .form-submit .submit,
+.widget .widget-title:after,
+.tabs-widget .tabs-nav li a.active,
+.widget_search .search-form:after,
+.service-sidebar .menu-service-menu-container li:hover,.service-sidebar .menu-service-menu-container li.current-menu-item,
+.service-sidebar .download .item-download span,
+.service-sidebar .download .item-download:hover,
+.woocommerce .added_to_cart:hover,.woocommerce button.button:hover,.woocommerce a.button:hover,.woocommerce input.button:hover,.woocommerce #respond input#submit:hover,.woocommerce .added_to_cart:focus,.woocommerce button.button:focus,.woocommerce a.button:focus,.woocommerce input.button:focus,.woocommerce #respond input#submit:focus,
+.woocommerce .added_to_cart.alt:hover,.woocommerce button.button.alt:hover,.woocommerce a.button.alt:hover,.woocommerce input.button.alt:hover,.woocommerce #respond input#submit.alt:hover,.woocommerce .added_to_cart.alt:focus,.woocommerce button.button.alt:focus,.woocommerce a.button.alt:focus,.woocommerce input.button.alt:focus,.woocommerce #respond input#submit.alt:focus,
+.woocommerce div.product div.summary button.single_add_to_cart_button,
+.woocommerce div.product div.summary .product-share a:hover,
+.woocommerce div.product .woocommerce-tabs ul.tabs li.active,.woocommerce div.product .woocommerce-tabs ul.tabs li:hover,
+.woocommerce #reviews #review_form .comment-form .form-submit input.submit,
+.woocommerce .related.products h2:before,.woocommerce .related.products h2:after,
+.woocommerce .related.products .owl-controls .owl-buttons div:hover,
+.woocommerce ul.products li.product .product-header .product-quick-view,
+.woocommerce form.checkout .woocommerce-billing-fields h3:before,.woocommerce form.checkout h3 label:before,.woocommerce form.checkout .woocommerce-billing-fields h3:after,.woocommerce form.checkout h3 label:after,
+.woocommerce form.checkout #payment div.place-order .button,
+.woocommerce .widget_price_filter .price_slider .ui-slider-range,
+.woocommerce .widget_price_filter .price_slider_amount .button,
+.woocommerce nav.woocommerce-pagination ul li .page-numbers:hover,.woocommerce nav.woocommerce-pagination ul li .page-numbers.current,
+.woocommerce-account .col2-set h2:before,.woocommerce-account .col2-set h2:after,
+.woocommerce-account form.login .button,.woocommerce-account form.register .button,
+.woocommerce-account .woocommerce-MyAccount-content form.edit-account .button,
+.woocommerce-cart .cart_totals h2:before,.woocommerce-cart .cart_totals h2:after,
+.woocommerce-cart table.cart td.actions .coupon .button,
+.woocommerce-cart .wc-proceed-to-checkout a.button,
+.footer-widgets .fp-form-field .subscribe:after,
+.fp-estimation input[type="submit"],
+.latest-project a:before,
+.owl-controls .owl-buttons div:hover,
+.search-no-results .search-form:after,
+.header-sticky .site-header.minimized .main-nav ul.menu > li.menu-item-button-link a,
+.header-sticky .site-header.minimizing .main-nav ul.menu > li.menu-item-button-link a,
+.header-sticky.header-v4 .site-header.minimized .main-nav ul.menu > li.menu-item-button-link a,
+.header-sticky.header-v4 .site-header.minimizing .main-nav ul.menu > li.menu-item-button-link a,
+.header-sticky.header-v4 .site-header.minimized .main-nav ul.menu > li.menu-item-button-link a,
+.header-sticky.header-v4 .site-header.minimizing .main-nav ul.menu > li.menu-item-button-link a,
+.header-v6 .contact-widget,
+.header-v7 .menu-item-button-link,
+.header-v7 .main-nav ul.menu li.fp-home,
+.header-v9 .main-nav .menu-item-button-link a,
+.header-v9 .main-nav .menu-item-button-link a:before
+{
+	background-color: #ff5a00;
+}
+
+@media (max-width: 1024px) {
+	div.fp-latest-project .item-project .project-summary {
+		background-color: #ff5a00;
+	}
+}
+
+
+.woocommerce-wishlist a.remove:hover,
+.fp_secondline,
+.fp_firstline,
+.tp-caption.fp_button_layer:hover,
+.fp_button_layer:hover,
+.factoryplus-arrow:hover,
+.factoryplus-bullets.tp-bullets .tp-bullet.selected,
+.factoryplus-bullets.tp-bullets .tp-bullet:hover {
+	background-color: #ff5a00 !important;
+}
+
+/*Border Color*/
+
+.fp_button_layer:hover,
+.numeric-navigation .page-numbers:hover,.numeric-navigation .page-numbers.current,
+.fp-related-project .owl-controls .owl-buttons div:hover,
+.error404 .error-404 .search-form:after,
+.backtotop,
+.widget_tag_cloud a:hover,
+.widget_search .search-form:after,
+.woocommerce div.product div.summary .product-share a:hover,
+.woocommerce div.product .woocommerce-tabs ul.tabs li.active,.woocommerce div.product .woocommerce-tabs ul.tabs li:hover,
+.woocommerce .related.products .owl-controls .owl-buttons div:hover,
+.woocommerce ul.products li.product .product-inner:hover img,
+.woocommerce .widget_price_filter .price_slider .ui-slider-handle,
+.woocommerce .widget_product_tag_cloud a:hover,
+.woocommerce nav.woocommerce-pagination ul li .page-numbers:hover,.woocommerce nav.woocommerce-pagination ul li .page-numbers.current,
+.search-no-results .search-form:after,
+.header-v6 .footer-widgets .fp-form-field .subscribe input[type="email"],
+.header-v7 .fp-form-field .subscribe input[type="email"],
+.header-v8 .fp-form-field .subscribe input[type="email"],
+.header-v9 .fp-form-field .subscribe input[type="email"]
+{
+	border-color: #ff5a00;
+}
+
+.fp_button_layer:hover,
+.tp-caption.fp_button_layer:hover,
+.factoryplus-arrow:hover {
+	border-color: #ff5a00 !important
+;}
+
+/*Border Top*/
+
+.header-v5 .header-extra-text a:after,
+.woocommerce span.ribbons:before,
+.header-v9 .main-nav .menu-item-button-link a:after{
+	border-top-color: #ff5a00;
+}
+
+
+/*Border Left*/
+
+blockquote,
+.main-nav li li,
+.project blockquote,
+.single-service blockquote,
+.woocommerce span.ribbons:before{
+	border-left-color: #ff5a00;
+}
+
+/*Border Bottom*/
+
+.header-v3 .topbar,
+.error404 .error-404 .back-home a{
+	border-bottom-color: #ff5a00;
+}
+
+/*Color*/
+
+.fp-form-1 .info span.phone-number,
+.fp-form-email p.text,
+.mejs-container .mejs-controls .mejs-time span,
+.topbar .topbar-socials li:hover a,
+.header-v4 .extra-text-left span,.header-v4 .extra-text-right span,
+.main-nav a:hover,
+.main-nav ul.menu > li.current-menu-item > a,
+.main-nav ul.menu > li.current-menu-item > a:after,
+.post-navigation a:hover,
+.primary-mobile-nav ul.menu li.current-menu-item > a,
+.blog-wrapper .entry-thumbnail a i,
+.blog-list .blog-wrapper .read-more:hover,
+.project cite span,
+.metas .fa,
+.error404 .error-404 .back-home a,
+.single-service cite span,
+.backtotop,
+.backtotop .fa,
+.backtotop:hover,
+.backtotop:hover .fa,
+.comment .comment-reply-link:hover,
+.widget_categories li:before,.widget_recent_comments li:before,.widget_rss li:before,.widget_pages li:before,.widget_archive li:before,.widget_nav_menu li:before,.widget_recent_entries li:before,.widget_meta li:before,.widget-recent-comments li:before,
+.widget_categories li:hover,.widget_recent_comments li:hover,.widget_rss li:hover,.widget_pages li:hover,.widget_archive li:hover,.widget_nav_menu li:hover,.widget_recent_entries li:hover,.widget_meta li:hover,.widget-recent-comments li:hover,
+.widget_categories li:hover a,.widget_recent_comments li:hover a,.widget_rss li:hover a,.widget_pages li:hover a,.widget_archive li:hover a,.widget_nav_menu li:hover a,.widget_recent_entries li:hover a,.widget_meta li:hover a,.widget-recent-comments li:hover a,
+.widget_categories li:hover a:before,.widget_recent_comments li:hover a:before,.widget_rss li:hover a:before,.widget_pages li:hover a:before,.widget_archive li:hover a:before,.widget_nav_menu li:hover a:before,.widget_recent_entries li:hover a:before,.widget_meta li:hover a:before,.widget-recent-comments li:hover a:before,
+.widget_tag_cloud a:hover,
+.widget-about a:hover,
+.service-sidebar .download .item-download:hover span,
+.service-sidebar .business span .fa,
+.service-sidebar .business span.name,
+.woocommerce .star-rating span:before,
+.woocommerce div.product div.summary .stock .fa,
+.woocommerce div.product div.summary p.price > span,
+.woocommerce div.product div.summary p.price ins,
+.woocommerce #reviews #review_form .comment-form .comment-form-rating .stars a,
+.woocommerce #reviews #comments ol.commentlist li .comment-text p.meta,
+.woocommerce .quantity .increase:hover,.woocommerce .quantity .decrease:hover,
+.woocommerce ul.products li.product .price > span,
+.woocommerce ul.products li.product .price ins,
+.woocommerce table.shop_table td.product-subtotal,
+.woocommerce .widget_product_categories li:before,
+.woocommerce .widget_product_categories li:hover,
+.woocommerce .widget_product_categories li:hover a,
+.woocommerce .widget_product_categories li:hover a:before,
+.woocommerce ul.product_list_widget li > span.amount,
+.woocommerce ul.product_list_widget li ins,
+.woocommerce .widget_product_tag_cloud a:hover,
+.woocommerce-wishlist table.shop_table tr td.product-stock-status span.wishlist-in-stock,
+.woocommerce-wishlist table.shop_table tbody .product-price > span,
+.woocommerce-wishlist table.shop_table tbody .product-price ins,
+.woocommerce-account form.login .lost_password a,.woocommerce-account form.register .lost_password a,
+.woocommerce-account .woocommerce-MyAccount-navigation ul li:hover a,.woocommerce-account .woocommerce-MyAccount-navigation ul li.is-active a,
+.woocommerce-cart a.remove:hover .fa,
+.site-footer .footer-copyright a,
+.site-footer .footer-text a,
+.footer-widgets .menu li:hover a,.footer-widgets .menu li:hover a:before,
+.footer-widgets .footer-widget-socials li:hover a,
+.footer-widgets .fp-form-field,
+.footer-widgets .footer-contact i,
+.header-transparent .main-nav ul.menu > li.current-menu-item > a:after,
+.header-sticky .site-header.minimized .main-nav ul.menu > li.current-menu-item > a,
+.header-sticky .site-header.minimizing .main-nav ul.menu > li.current-menu-item > a,
+.header-sticky .site-header.minimized .main-nav ul.menu > li.current-menu-item > a:after,
+.header-sticky .site-header.minimizing .main-nav ul.menu > li.current-menu-item > a:after,
+.header-sticky .site-header.minimized .main-nav ul.menu > li > a:hover,
+.header-sticky .site-header.minimizing .main-nav ul.menu > li > a:hover,
+.header-sticky .site-header.minimized .main-nav ul.menu > li > a:hover:after,
+.header-sticky .site-header.minimizing .main-nav ul.menu > li > a:hover:after,
+.entry-meta a:hover,
+.main-nav .menu-item-text i,
+.header-v7 .extra-text-1 span,
+.header-v7 .extra-text-2 span,
+.fp-counter.style-2 .fp-icon,
+.header-v8 .main-nav ul.menu > li.fp-home:after,
+.header-extra-text .item-text a:hover,
+.fp_content_layer,
+.tp-caption.fp_content_layer
+{
+	color: #ff5a00;
+}
+
+@media (max-width: 1024px) {
+	.fp-team div.team-member ul li a {
+		color: #ff5a00;
+	}
+}
+
+.woocommerce-cart a.remove:hover {
+	color: #ff5a00 !important;
+}
