@@ -1,14 +1,17 @@
 var express = require('express');
 var router = express.Router();
+var con = require('../../model/config');
 
-product = {}
+const product = {}
     /* GET home page. */
 router.get('/product', async(req, res, next) => {
     let getAllProducts = await product._fetchAllproduct();
     if (getAllProducts.hasOwnProperty('error')) {
         console.log(getAllProducts.error)
+        return;
     }
-    res.render('product', { getAllProducts: getAllProducts });
+    res.json({ 'success': getAllProducts })
+    res.render('product', { getAllProducts });
 });
 
 // Get a single product by id
@@ -22,10 +25,10 @@ router.get('/product/:_id', async(req, res, next) => {
 });
 
 // collect product post
-router.post('/product', (req, res) => {
+router.post('/product', async(req, res) => {
     let name = req.body.name;
     let description = req.body.description;
-    let units = req.body.units;
+    let units = req.body.unit;
     let price = req.body.price;
     let image = req.body.image;
 
@@ -35,49 +38,50 @@ router.post('/product', (req, res) => {
         return;
     }
     //checking if the firstname field is empty or undefined
-    if (typeof name === "" || typeof name === 'undefined') {
+    if (name === "" || typeof name === 'undefined') {
         res.json({ 'error': 'Product name cannot be empty' });
         return;
     }
     //checking if the lastname field is empty or undefined
-    if (typeof description === "" || typeof description === 'undefined') {
+    if (description === "" || typeof description === 'undefined') {
         res.json({ 'error': 'description is empty' });
         return;
     }
 
     //checking if the password field is empty or undefined
-    if (typeof units === "" || typeof units === 'undefined') {
+    if (units === "" || typeof units === 'undefined') {
         res.json({ 'error': 'units is empty' })
         return;
     }
 
-    if (typeof price === "" || typeof price === 'undefined') {
+    if (price === "" || typeof price === 'undefined') {
         res.json({ 'error': 'Please confirm your password' })
         return;
     }
 
     //checking if the phone field is empty or undefined
-    if (typeof image === "" || typeof image === 'undefined') {
+    if (image === "" || typeof image === 'undefined') {
         res.json({ 'error': 'image is empty' });
         return;
     }
-
-    let newProduct = await product._registerUser(userInfo);
+    let categoryId = 2;
+    let productsArray = [name, description, units, price, image, categoryId]
+    let newProduct = await product._addProduct(productsArray);
     if (newProduct.hasOwnProperty('error')) {
         console.log(newProduct.error)
         return
     }
     console.log('New product added')
         // res.redirect('/login')
-    res.json({ 'success': 'You have successfully add a new product' })
+    res.json({ 'success': 'You have successfully added a new product' })
     return
 
 })
 
 // Add a new product
-product._addProduct = (userInfo) => {
+product._addProduct = (productsArray) => {
     return new Promise(resolve => {
-        con.realConnect.query('INSERT INTO `products` (`name`, `description`, `units`, `price`, `image`) VALUES(?, ?, ?, ?, ?)', userInfo, (err, done) => {
+        con.realConnect.query('INSERT INTO `products` (`name`, `description`, `units`, `price`, `image`, categories_id) VALUES(?, ?, ?, ?, ?, ?)', productsArray, (err, done) => {
             if (err) {
                 resolve({ 'error': 'Error' + err })
             } else {
@@ -111,12 +115,12 @@ product._fetchAllproduct = (startIndex) => {
         startPoint = (startIndex - 1) * 20
     }
     return new Promise(resolve => {
-        con.realConnect.query('SELECT * FROM messages LIMIT ?, ?', [startPoint, 20], (err, rows) => {
+        con.realConnect.query('SELECT * FROM products LIMIT ?, ?', [startPoint, 20], (err, rows) => {
             if (err) {
                 resolve({ "error": err })
                 return
             }
-            con.realConnect.query('SELECT count(*) FROM `messages`', (err, done) => {
+            con.realConnect.query('SELECT count(*) FROM `products`', (err, done) => {
                 if (err) {
                     resolve({ "error": err })
                 } else {
@@ -180,17 +184,29 @@ product._removeProduct = (id) => {
     })
 }
 
+// Get all products on the landing page
+product._selectProducts = () => {
+    return new Promise(resolve => {
+        con.realConnect.query('SELECT * FROM `products`', (err, results) => {
+            if (err) {
+                resolve({ 'error': 'Error' + err })
+            } else {
+                resolve(results)
+            }
+        })
+    })
+}
+
+module.exports = product;
 module.exports = router;
 
 
 // File upload API
 exports.post = (req, res, next) => {
     const form = new formidable.IncomingForm();
-
     form.parse(req, async(err, fields, files) => {
 
         const fileUpload = files.image;
-        const fileVideo = await files.video;
         const uploadInfo = fields;
         console.log(fileUpload);
         console.log(uploadInfo);
@@ -212,7 +228,6 @@ exports.post = (req, res, next) => {
             fs.writeFileSync(desti, datas);
             fs.unlinkSync(fileVideo.path);
             uploadInfo.image = name;
-            uploadInfo.video = video;
             // uploadInfo.fileSize = fileUpload.size;
             // uploadInfo.fileType = fileUpload.type;
         }

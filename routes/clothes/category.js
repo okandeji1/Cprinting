@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var con = require('../../model/config');
 
 category = {}
 
@@ -34,7 +35,7 @@ category._deleteCategory = (id) => {
 }
 
 // Get all categories
-category._fetchAllproduct = (startIndex) => {
+category._fetchAllCategories = (startIndex) => {
     var startPoint
     if (typeof startIndex === 'undefined' || startIndex === '' || startIndex === 1) {
         startPoint = 0;

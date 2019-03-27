@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
-order = {}
+var con = require('../../model/config');
+
+const order = {}
 
 // Order a product
 order._orderProduct = (quantity, address, useraId, productId) => {
@@ -45,7 +47,7 @@ order._fetcUser = (id) => {
 order._editProduct = (id) => {
     return new Promise((resolved, reject) => {
         try {
-            con.realConnect.query('UPDATE `order` SET `is_deliver` = 1 WHERE `id` = ?', id, (error, result) => {
+            con.realConnect.query('UPDATE `orders` SET `is_deliver` = 1 WHERE `id` = ?', id, (error, result) => {
                 resolved(error ? { "error": error } : { "data": result })
             })
         } catch (error) {

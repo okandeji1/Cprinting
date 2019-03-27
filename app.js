@@ -11,7 +11,8 @@ var hbsutils = require('hbs-utils')
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var user = require('./routes/clothes/user');
+var users = require('./routes/clothes/user');
+var products = require('./routes/clothes/product');
 
 var app = express();
 
@@ -66,9 +67,10 @@ app.use((req, res, next) => {
 // });
 
 
-app.use('/', indexRouter);
+// app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/user', user);
+app.use('/', users);
+app.use('/product', products);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

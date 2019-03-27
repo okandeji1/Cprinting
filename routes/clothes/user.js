@@ -2,13 +2,8 @@ var express = require('express');
 var router = express.Router();
 var session = require('express-session');
 var con = require('../../model/config');
-// var bodyParser = require('body-parser')
 var passwordHash = require('password-hash');
-
-// router.use(bodyParser.json());
-// router.use(bodyParser.urlencoded({ extended: true }))
-
-user = {}
+const user = {}
     // middleware function to check for logged-in users
 var sessionChecker = (req, res, next) => {
     if (req.session.user && req.cookies.user_sid) {
@@ -17,9 +12,38 @@ var sessionChecker = (req, res, next) => {
         next();
     }
 };
+router.get('/', async(req, res) => {
+    // Call the api to fetch product
+    let viewProduct = await fetchProduct()
+    if (viewProduct.hasOwnProperty('error')) {
+        console.log(viewProduct.error)
+        return
+    } else {
+        res.render('clothes/index', { layout: 'layouts/clothes', viewProduct });
+        return;
+    }
+});
 
-router.get('/', (req, res) => {
-    res.render('clothes/index', { layout: 'layouts/clothes' });
+// Here's how products are added to the cart in our sample store:
+router.post('/cart', async(req, res) => {
+    let qty = parseInt(req.body.qty, 10);
+    let product = parseInt(req.body.id, 10);
+    let userId = req.session.user_id;
+    if (qty > 0) {
+        let cartArray = [qty, userId, productId];
+        let cartProduct = await fetchProductById(cartArray)
+            .then(prod => {
+                Cart.addToCart(prod, qty);
+                Cart.saveCart(req);
+                res.json({ 'success': 'Cart added' })
+                    // res.redirect('/cart');
+            }).catch(err => {
+                console.log(err)
+                res.redirect('/');
+            });
+    } else {
+        res.redirect('/');
+    }
 });
 
 
@@ -47,12 +71,12 @@ router.get('/dashboard', (req, res) => {
 router.post('/login', async(req, res) => {
         let email = req.body.email;
         let password = req.body.password;
-        if (typeof email === "" || typeof email === 'undefined') {
+        if (email === "" || typeof email === 'undefined') {
             res.json({ 'error': 'Email is empty' });
             return;
         }
         //checking the password field if its empty or undefined
-        if (typeof password === "" || typeof password === 'undefined') {
+        if (password === "" || typeof password === 'undefined') {
             res.json({ 'error': 'Password is empty' })
             return;
         }
@@ -117,28 +141,28 @@ router.post('/register', async(req, res) => {
         return;
     }
     //checking if the firstname field is empty or undefined
-    if (typeof firstname === "" || typeof firstname === 'undefined') {
+    if (firstname === "" || typeof firstname === 'undefined') {
         res.json({ 'error': 'firstname is empty' });
         return;
     }
     //checking if the lastname field is empty or undefined
-    if (typeof lastname === "" || typeof lastname === 'undefined') {
+    if (lastname === "" || typeof lastname === 'undefined') {
         res.json({ 'error': 'lastname is empty' });
         return;
     }
 
     //checking if the email field is empty or undefined and if it matches the regex pattern
-    if (typeof email === "" || typeof email === 'undefined' || !re.test(email)) {
+    if (email === "" || typeof email === 'undefined' || !re.test(email)) {
         res.json({ 'error': 'incorrect email format' })
         return;
     }
     //checking if the password field is empty or undefined
-    if (typeof password === "" || typeof password === 'undefined') {
+    if (password === "" || typeof password === 'undefined') {
         res.json({ 'error': 'Password is empty' })
         return;
     }
 
-    if (typeof cpassword === "" || typeof cpassword === 'undefined') {
+    if (cpassword === "" || typeof cpassword === 'undefined') {
         res.json({ 'error': 'Please confirm your password' })
         return;
     }
@@ -149,7 +173,7 @@ router.post('/register', async(req, res) => {
     }
 
     //checking if the phone field is empty or undefined
-    if (typeof phone === "" || typeof phone === 'undefined') {
+    if (phone === "" || typeof phone === 'undefined') {
         res.json({ 'error': 'Phone is empty' });
         return;
     }
@@ -209,6 +233,61 @@ user._registerUser = (userInfo) => {
         con.realConnect.query('INSERT INTO `users` (`firstname`, `lastname`, `email`, `password`, `phone`) VALUES(?, ?, ?, ?, ?)', userInfo, (err, done) => {
             if (err) {
                 resolve({ 'error': 'Error' + err })
+            } else {
+                resolve(done)
+            }
+        })
+    })
+}
+
+// Delete user 
+user._deleteUser = (id) => {
+    return new Promise(resolve => {
+        con.realConnect.query('DELETE FROM `users` WHERE `id` = ?', [id], (err, rows) => {
+            if (err) {
+                resolve({ "error": err });
+            } else {
+                resolve('The template has been deleted');
+            }
+        });
+    })
+}
+
+// Update user info
+user._editProduct = (id) => {
+    return new Promise((resolved, reject) => {
+        try {
+            con.realConnect.query('UPDATE `users` SET `is_deliver` = 1 WHERE `id` = ?', id, (error, result) => {
+                resolved(error ? { "error": error } : { "data": result })
+            })
+        } catch (error) {
+            resolved({ "error": error })
+            console.log(error)
+            return
+        }
+    })
+}
+
+// Api to fetch all product for display in view
+function fetchProduct() {
+    return new Promise(resolve => {
+        con.realConnect.query('SELECT * FROM `products`', (err, done) => {
+            if (err) {
+                resolve({ 'error': 'Error' + err })
+                return
+            } else {
+                resolve(done)
+            }
+        })
+    })
+}
+
+function fetchProductById(cartArray) {
+    return new Promise(resolve => {
+        con.realConnect.query('INSERT INTO carts(cart_counts,users_id, products_id) VALUES((SELECT * FROM products WHERE id = ?), ?)', cartArray, () => {
+            if (err) {
+                resolve({ 'error': 'Error' + err })
+                return
             } else {
                 resolve(done)
             }

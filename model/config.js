@@ -8,7 +8,7 @@ con.db = {
         database: 'cprinting'
     },
     live: {
-        'host': 'address',
+        'host': 'live host address',
         user: 'user',
         password: 'something',
         database: 'cprinting'

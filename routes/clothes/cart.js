@@ -1,40 +1,69 @@
 var Product = require('../models/product');
+var con = require('../../model/config');
 
-exports.cart = async(req, res, next) => {
-    var cart = req.session.cart;
-    var displayCart = { items: [], total: 0 };
-    var total = 0;
+router.post('/add-to-cart/', function(req, res, next) {
 
-    //Get total
-    for (var item in cart) {
-        displayCart.items.push(cart[item]);
-        total += (cart[item].qty * cart[item].price);
-    }
-    displayCart.total = total;
+    //Retrieving item id and qty for secure reasons
+    var item = req.body;
+    var cartID = req.cookies['user.id'] || req.cookies['connect.sid'];
 
-    //Render cart page
-    res.render('cart', {
-        title: "Cart",
-        cart: displayCart
-    });
-}
-
-exports.post = (req, res, next) => {
-    req.session.cart = req.session.cart || {};
-    var cart = req.session.cart;
-
-    Product.find({ _id: req.params.id }, function(err, product) {
-        if (err) throw err;
-        if (cart[req.params.id]) {
-            cart[req.params.id].qty++
-        } else {
-            cart[req.params.id] = {
-                item: product._id,
-                title: product.name,
-                price: product.price,
-                qty: 1
-            }
+    //Search for item in store items by ID
+    Item.findById(item.id, function(err, result) {
+        if (err) {
+            return next(err)
         }
-        res.redirect('/cart')
-    })
+        return result;
+    }).then(function(result) {
+
+        checkForExistingCart(cartID, function(response) {
+            var cart;
+
+            if (response) {
+                console.log("\nCart found. Start working with existing cart. \n");
+
+                //Using existing cart
+                cart = response;
+            } else {
+                console.log("\nCart not found. Creating a new cart \n");
+
+                //Creating a new instance of shopping cart
+                cart = new Cart({
+                    _id: cartID
+                });
+            }
+
+            var cartItem = new CartItem({
+                _id: result.id,
+                images: result.images,
+                title: result.title,
+                price: result.price,
+                mainImageIndex: result.mainImageIndex,
+                qty: item.qty
+            });
+
+            console.log('New cart item: ', cartItem);
+
+            cart.addItem(cartItem, function(err, cart) {
+                if (err) {
+                    return next(err)
+                }
+                console.log(cart);
+                res.json(cart);
+            });
+
+        });
+    });
+});
+
+function checkForExistingCart(cartID, cb) {
+    /*
+     * This function search for existing cart
+     * by session id. If cart is found, it returns
+     * cart object. Otherwise it throws error
+     * */
+    Cart.findById(cartID, function(err, cart) {
+        if (err) { return next(err) }
+
+        return cart;
+    }).then(cb);
 }
