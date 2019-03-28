@@ -5,12 +5,12 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var logger = require('morgan');
-var hbs = require('hbs')
-var hbsutils = require('hbs-utils')
-
-
+var hbs = require('hbs');
+var hbsutils = require('hbs-utils');
+var sql = require('./model/config');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var index = require('./routes/clothes/index');
 var users = require('./routes/clothes/user');
 var products = require('./routes/clothes/product');
 
@@ -48,16 +48,14 @@ app.use(session({
     secret: 'somerandonstuffs',
     resave: false,
     saveUninitialized: false,
-    cookie: {
-        expires: 600000
-    }
+    // store: new MySQLStore({ mysqlConnection: sql.con.keepalive() }),
+    cookie: { expires: 180 * 60 * 1000 }
 }));
 // This middleware will check if user's cookie is still saved in browser and user is not set, then automatically log the user out.
 // This usually happens when you stop your express server after login, your cookie still remains saved in the browser.
 app.use((req, res, next) => {
-    if (req.cookies.user_sid && !req.session.user) {
-        res.clearCookie('user_sid');
-    }
+    // res.locals.login = req.isAuthenticated();
+    res.locals.session = req.session;
     next();
 });
 
@@ -69,6 +67,7 @@ app.use((req, res, next) => {
 
 // app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/', index);
 app.use('/', users);
 app.use('/product', products);
 

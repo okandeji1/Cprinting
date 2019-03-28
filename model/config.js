@@ -1,4 +1,6 @@
-const mysql = require('mysql')
+var mysql = require('mysql')
+var session = require('express-session');
+var MySQLStore = require('express-mysql-session')(session);
 const con = {}
 con.db = {
     local: {
@@ -16,14 +18,14 @@ con.db = {
 }
 con.keepalive = () => {
     con.realConnect = mysql.createConnection((process.env.NODE_ENV === 'dev' ? con.db.local : con.db.live))
-    con.realConnect.on('error', (err) => {
-        console.log('The connection to the database was lost on error');
-        con.realConnect.connect();
-    })
-    con.realConnect.connect((err) => {
-        if (err) throw err;
-        console.log('database connected')
-    })
+    var sessionStore = new MySQLStore({} /* session store options */ , con.realConnect.on('error', (err) => {
+            console.log('The connection to the database was lost on error');
+            con.realConnect.connect();
+        }),
+        con.realConnect.connect((err) => {
+            if (err) throw err;
+            console.log('database connected')
+        }));
 }
 con.keepalive();
 module.exports = con;

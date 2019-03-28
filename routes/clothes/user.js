@@ -12,47 +12,13 @@ var sessionChecker = (req, res, next) => {
         next();
     }
 };
-router.get('/', async(req, res) => {
-    // Call the api to fetch product
-    let viewProduct = await fetchProduct()
-    if (viewProduct.hasOwnProperty('error')) {
-        console.log(viewProduct.error)
-        return
-    } else {
-        res.render('clothes/index', { layout: 'layouts/clothes', viewProduct });
-        return;
-    }
-});
 
-// Here's how products are added to the cart in our sample store:
-router.post('/cart', async(req, res) => {
-    let qty = parseInt(req.body.qty, 10);
-    let product = parseInt(req.body.id, 10);
-    let userId = req.session.user_id;
-    if (qty > 0) {
-        let cartArray = [qty, userId, productId];
-        let cartProduct = await fetchProductById(cartArray)
-            .then(prod => {
-                Cart.addToCart(prod, qty);
-                Cart.saveCart(req);
-                res.json({ 'success': 'Cart added' })
-                    // res.redirect('/cart');
-            }).catch(err => {
-                console.log(err)
-                res.redirect('/');
-            });
-    } else {
-        res.redirect('/');
-    }
-});
-
-
-/* GET home page. */
+/* GET login page. */
 router.get('/login', sessionChecker, (req, res, next) => {
     res.render('index', { layout: 'layouts/clothes' });
 });
 
-/* GET home page. */
+/* GET register page. */
 router.get('/register', sessionChecker, (req, res, next) => {
     res.render('register', { layout: 'layouts/clothes' });
 });
@@ -265,33 +231,6 @@ user._editProduct = (id) => {
             console.log(error)
             return
         }
-    })
-}
-
-// Api to fetch all product for display in view
-function fetchProduct() {
-    return new Promise(resolve => {
-        con.realConnect.query('SELECT * FROM `products`', (err, done) => {
-            if (err) {
-                resolve({ 'error': 'Error' + err })
-                return
-            } else {
-                resolve(done)
-            }
-        })
-    })
-}
-
-function fetchProductById(cartArray) {
-    return new Promise(resolve => {
-        con.realConnect.query('INSERT INTO carts(cart_counts,users_id, products_id) VALUES((SELECT * FROM products WHERE id = ?), ?)', cartArray, () => {
-            if (err) {
-                resolve({ 'error': 'Error' + err })
-                return
-            } else {
-                resolve(done)
-            }
-        })
     })
 }
 
