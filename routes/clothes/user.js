@@ -180,32 +180,6 @@ router.post('/register', async(req, res) => {
     }
 })
 
-// to check if the username and password match the details in the database 
-user._checkUser = (email) => {
-    return new Promise(resolve => {
-        con.realConnect.query('SELECT *  FROM `users` WHERE `email` = ?', email, (err, data) => {
-            if (err) {
-                console.log(err);
-            } else {
-                resolve(data)
-            }
-        });
-    })
-}
-
-// Registering user query
-user._registerUser = (userInfo) => {
-    return new Promise(resolve => {
-        con.realConnect.query('INSERT INTO `users` (`firstname`, `lastname`, `email`, `password`, `phone`) VALUES(?, ?, ?, ?, ?)', userInfo, (err, done) => {
-            if (err) {
-                resolve({ 'error': 'Error' + err })
-            } else {
-                resolve(done)
-            }
-        })
-    })
-}
-
 // Delete user 
 user._deleteUser = (id) => {
     return new Promise(resolve => {

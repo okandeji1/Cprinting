@@ -1,7 +1,11 @@
 var express = require('express');
 var router = express.Router();
+var csrf = require('csurf');
+var passport = require('passport');
 var con = require('../../model/config');
 var Cart = require('../../model/cart_model');
+var csrfProtection = csrf();
+router.use(csrfProtection);
 
 router.get('/', async(req, res) => {
     // Call the api to fetch product
@@ -14,6 +18,21 @@ router.get('/', async(req, res) => {
         return;
     }
 });
+
+// signup page
+router.get('/signup', (req, res, next) => {
+    var messages = req.flash('error')
+    res.render('register', {
+        csrfToken: req.csrfToken(),
+        messages: messages,
+        hasErrors: messages.length > 0
+    });
+});
+router.post('/register', passport.authenticate('local.signup', {
+    successRedirect: 'Success',
+    failureredirect: 'failure',
+    failureFlash: true
+}));
 // Add item to the cart
 router.get('/add-to-cart/:id', async(req, res, next) => {
     var productId = req.params.id;
@@ -31,14 +50,19 @@ router.get('/add-to-cart/:id', async(req, res, next) => {
 // Get the shopping cart page
 router.get('/shopping-cart', (req, res, next) => {
     if (!req.session.cart) {
-        res.send('No cart found')
-        return
-        // return res.render('shopping-cart', { products: null });
+        return res.render('clothes/shopping_cart', { layout: 'layouts/clothes', products: null });
     }
     var cart = new Cart(req.session.cart);
-    res.send({ product: cart.generateArray(), totalPrice: cart.totalPrice });
-    return
-    // return res.render('shopping_cart', { product: cart.generateArray(), totalPrice: cart.totalPrice });
+    return res.render('clothes/shopping_cart', { layout: 'layouts/clothes', products: cart.generateArray(), totalPrice: cart.totalPrice });
+});
+
+// Checkout
+router.get('/checkout', (req, res, next) => {
+    if (!req.session.cart) {
+        res.redirect('clothes/shopping_cart')
+    }
+    var cart = Cart(req.session.cart);
+    res.render('clothes/checkout', { layout: 'layouts/clothes', total: cart.totalPrice })
 })
 
 // Api to fetch all product for display in view
