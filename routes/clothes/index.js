@@ -59,10 +59,10 @@ router.get('/shopping-cart', (req, res, next) => {
 // Checkout
 router.get('/checkout', (req, res, next) => {
     if (!req.session.cart) {
-        res.redirect('clothes/shopping_cart')
+        return res.redirect('/shopping_cart')
     }
-    var cart = Cart(req.session.cart);
-    res.render('clothes/checkout', { layout: 'layouts/clothes', total: cart.totalPrice })
+    var cart = new Cart(req.session.cart);
+    return res.render('clothes/checkout', { layout: 'layouts/clothes', total: cart.totalPrice })
 })
 
 // Api to fetch all product for display in view
