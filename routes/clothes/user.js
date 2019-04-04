@@ -13,25 +13,10 @@ var sessionChecker = (req, res, next) => {
     }
 };
 
-/* GET login page. */
-router.get('/login', sessionChecker, (req, res, next) => {
-    res.render('index', { layout: 'layouts/clothes' });
-});
-
-/* GET register page. */
-router.get('/register', sessionChecker, (req, res, next) => {
-    res.render('register', { layout: 'layouts/clothes' });
-});
-
-
-// route for user's dashboard
+// dashboard
 router.get('/dashboard', (req, res) => {
-    if (req.session.user && req.cookies.user_sid) {
-        res.render('dashboard')
-    } else {
-        res.redirect('/login');
-    }
-});
+    res.render('clothes/admin/dashboard', { layout: 'layouts/admin' })
+})
 
 // Login User
 router.post('/login', async(req, res) => {

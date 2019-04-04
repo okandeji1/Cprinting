@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var passport = require('passport');
 var flash = require('connect-flash');
+var validator = require('express-validator');
 var logger = require('morgan');
 var hbs = require('hbs');
 var hbsutils = require('hbs-utils');
@@ -15,6 +16,7 @@ var users = require('./routes/clothes/user');
 var products = require('./routes/clothes/product');
 
 var app = express();
+require('./config/passport')(passport)
 
 const blocks = {};
 const templateUtil = hbsutils(hbs);
@@ -33,8 +35,9 @@ app.set('view engine', 'hbs');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(validator());
 app.use(express.static(path.join(__dirname, 'public')));
 // initialize body-parser to parse incoming parameters requests to req.body
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -57,19 +60,13 @@ app.use(passport.session());
 // This middleware will check if user's cookie is still saved in browser and user is not set, then automatically log the user out.
 // This usually happens when you stop your express server after login, your cookie still remains saved in the browser.
 app.use((req, res, next) => {
-    // res.locals.login = req.isAuthenticated();
+    res.locals.login = req.isAuthenticated();
     res.locals.session = req.session;
     next();
 });
 
-// route for Home-Page
-// app.get('/', sessionChecker, (req, res) => {
-//     res.redirect('/login');
-// });
-
-
 app.use('/', index);
-app.use('/', users);
+app.use('/user', users);
 app.use('/product', products);
 
 // catch 404 and forward to error handler

@@ -19,18 +19,33 @@ router.get('/', async(req, res) => {
     }
 });
 
-// signup page
-router.get('/signup', (req, res, next) => {
+// dashboard
+router.get('/account', (req, res) => {
+        res.render('clothes/dashboard', { layout: 'layouts/clothes' })
+    })
+    // Login
+router.get('/login', (req, res, next) => {
     var messages = req.flash('error')
-    res.render('register', {
+    res.render('clothes/login', {
+        layout: 'layouts/clothes',
         csrfToken: req.csrfToken(),
         messages: messages,
         hasErrors: messages.length > 0
     });
 });
-router.post('/register', passport.authenticate('local.signup', {
-    successRedirect: 'Success',
-    failureredirect: 'failure',
+// signup page
+router.get('/signup', (req, res, next) => {
+    var messages = req.flash('error')
+    res.render('clothes/signup', {
+        // layout: 'layouts/clothes',
+        csrfToken: req.csrfToken(),
+        messages: messages,
+        hasErrors: messages.length > 0
+    });
+});
+router.post('/signup', passport.authenticate('local.signup', {
+    successRedirect: '/clothes/dashboard',
+    failureredirect: '/clothes/signup',
     failureFlash: true
 }));
 // Add item to the cart
@@ -55,6 +70,12 @@ router.get('/shopping-cart', (req, res, next) => {
     var cart = new Cart(req.session.cart);
     return res.render('clothes/shopping_cart', { layout: 'layouts/clothes', products: cart.generateArray(), totalPrice: cart.totalPrice });
 });
+
+// reduce Item
+router.get('/reduce/:id', (req, res, next) => {
+    var productId = req.params.id;
+    var addToCart = new Cart(req.session.cart ? req.session.cart : {});
+})
 
 // Checkout
 router.get('/checkout', (req, res, next) => {
@@ -92,4 +113,11 @@ function fetchProductById(productId) {
     })
 }
 
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    req.session.oldUrl = req.url;
+    res.redirect('/login');
+}
 module.exports = router;
