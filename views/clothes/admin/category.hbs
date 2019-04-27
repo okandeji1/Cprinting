@@ -1,0 +1,38 @@
+<div class="row">
+    <div class="col-sm-6 col-md-4 col-md-offset-4 col-sm-offset-3">
+        <h1>Category</h1>
+        {{#if hasErrors}}
+        <div class="alert alert-danger">
+            {{#each messages}}
+            <p>{{this}}</p>
+            {{/each}}
+        </div>
+        {{/if}}
+        <form action="/category" method="POST">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" name="name" id="" class="form-control">
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="type">Type</label>
+                        <select name="type" class="form-control">
+                            <option value="">Select type</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                        <button class="btn btn-success" type="submit">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -5,19 +5,19 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var passport = require('passport');
+var localStrategy = require('passport-local').Strategy;
 var flash = require('connect-flash');
 var validator = require('express-validator');
 var logger = require('morgan');
 var hbs = require('hbs');
 var hbsutils = require('hbs-utils');
-var sql = require('./model/config');
-var index = require('./routes/clothes/index');
+var con = require('./model/config');
 var users = require('./routes/clothes/user');
+var index = require('./routes/clothes/index');
 var products = require('./routes/clothes/product');
+var category = require('./routes/clothes/category');
 
 var app = express();
-require('./config/passport')(passport)
-
 const blocks = {};
 const templateUtil = hbsutils(hbs);
 // export locals ato template
@@ -35,15 +35,13 @@ app.set('view engine', 'hbs');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(bodyParser.json());
-app.use(express.urlencoded({ extended: false }));
+
 app.use(validator());
 app.use(express.static(path.join(__dirname, 'public')));
-// initialize body-parser to parse incoming parameters requests to req.body
-app.use(bodyParser.urlencoded({ extended: true }));
-
 // initialize cookie-parser to allow us access the cookies stored in the browser. 
 app.use(cookieParser());
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // initialize express-session to allow us track the logged-in user across sessions.
 app.use(session({
@@ -57,7 +55,18 @@ app.use(session({
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
-// This middleware will check if user's cookie is still saved in browser and user is not set, then automatically log the user out.
+// User query
+passport.serializeUser((user, done) => {
+    done(null, user.sid);
+});
+passport.deserializeUser((id, done) => {
+    con.realConnect.query('SELECT * FROM `users` WHERE `id` = ?', [id], (err, rows) => {
+        done(err, rows[0]);
+    });
+});
+
+// This middleware will check if user's cookie is still saved in
+//  browser and user is not set, then automatically log the user out.
 // This usually happens when you stop your express server after login, your cookie still remains saved in the browser.
 app.use((req, res, next) => {
     res.locals.login = req.isAuthenticated();
@@ -65,9 +74,10 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('/', index);
 app.use('/user', users);
 app.use('/product', products);
+app.use('/category', category);
+app.use('/', index);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

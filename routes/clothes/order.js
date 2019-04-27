@@ -4,6 +4,22 @@ var con = require('../../model/config');
 
 const order = {}
 
+// Force user to login
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    req.session.oldUrl = req.url;
+    res.redirect('/user/login');
+}
+
+function notLoggedIn(req, res, next) {
+    if (!req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect('/user/login');
+}
+
 // Order a product
 order._orderProduct = (quantity, address, useraId, productId) => {
     return new Promise((resolve, reject) => {

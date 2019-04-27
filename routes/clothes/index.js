@@ -1,11 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var csrf = require('csurf');
-var passport = require('passport');
 var con = require('../../model/config');
 var Cart = require('../../model/cart_model');
-var csrfProtection = csrf();
-router.use(csrfProtection);
 
 router.get('/', async(req, res) => {
     // Call the api to fetch product
@@ -14,40 +10,15 @@ router.get('/', async(req, res) => {
         console.log(viewProduct.error)
         return
     } else {
-        res.render('clothes/index', { layout: 'layouts/clothes', viewProduct });
-        return;
+        var productChunks = []
+        let chunkSize = 3
+        for (let i = 0; i < viewProduct.length; i += chunkSize) {
+            productChunks.push(viewProduct.slice(i, i + chunkSize))
+        }
+        res.render('clothes/index', { layout: 'layouts/clothes', products: productChunks });
     }
 });
 
-// dashboard
-router.get('/account', (req, res) => {
-        res.render('clothes/dashboard', { layout: 'layouts/clothes' })
-    })
-    // Login
-router.get('/login', (req, res, next) => {
-    var messages = req.flash('error')
-    res.render('clothes/login', {
-        layout: 'layouts/clothes',
-        csrfToken: req.csrfToken(),
-        messages: messages,
-        hasErrors: messages.length > 0
-    });
-});
-// signup page
-router.get('/signup', (req, res, next) => {
-    var messages = req.flash('error')
-    res.render('clothes/signup', {
-        // layout: 'layouts/clothes',
-        csrfToken: req.csrfToken(),
-        messages: messages,
-        hasErrors: messages.length > 0
-    });
-});
-router.post('/signup', passport.authenticate('local.signup', {
-    successRedirect: '/clothes/dashboard',
-    failureredirect: '/clothes/signup',
-    failureFlash: true
-}));
 // Add item to the cart
 router.get('/add-to-cart/:id', async(req, res, next) => {
     var productId = req.params.id;
@@ -78,7 +49,7 @@ router.get('/reduce/:id', (req, res, next) => {
 })
 
 // Checkout
-router.get('/checkout', (req, res, next) => {
+router.get('/checkout', isLoggedIn, (req, res, next) => {
     if (!req.session.cart) {
         return res.redirect('/shopping_cart')
     }
@@ -86,6 +57,21 @@ router.get('/checkout', (req, res, next) => {
     return res.render('clothes/checkout', { layout: 'layouts/clothes', total: cart.totalPrice })
 })
 
+// Force user to login
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    req.session.oldUrl = req.url;
+    res.redirect('/user/login');
+}
+
+function notLoggedIn(req, res, next) {
+    if (!req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect('/user/login');
+}
 // Api to fetch all product for display in view
 function fetchProduct() {
     return new Promise(resolve => {
@@ -113,11 +99,4 @@ function fetchProductById(productId) {
     })
 }
 
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    req.session.oldUrl = req.url;
-    res.redirect('/login');
-}
 module.exports = router;

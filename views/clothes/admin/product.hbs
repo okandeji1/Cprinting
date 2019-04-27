@@ -1,0 +1,63 @@
+<div class="row">
+    <div class="col-sm-6 col-md-4 col-md-offset-4 col-sm-offset-3">
+        <h1>Product</h1>
+        {{#if hasErrors}}
+        <div class="alert alert-danger">
+            {{#each messages}}
+            <p>{{this}}</p>
+            {{/each}}
+        </div>
+        {{/if}}
+        <form action="/product/add-product?_csrf={{_csrfToken}}" method="POST" enctype="multipart/form-data">
+            <div class="row">
+                {{#each allCategories}}
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" name="name" id="" class="form-control">
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="price">Price</label>
+                        <input type="text" class="form-cntrol" name="price" placeholder="Input Price">
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="unit">Units</label>
+                        <input type="text" class="form-cntrol" name="unit" placeholder="Add units">
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea name="description" id="" placeholder="Description" class="form-control"></textarea>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="image">Image</label>
+                        <input type="file" name="image" id="">
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        <select name="category" id="" class="form-control">
+                            <option value="">Select category</option>
+                            <option value="{{name}}">{{name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <input type="hidden" name="_csrf" value="{{_csrfToken}}">
+                        <button class="btn btn-success" type="submit">Buy Now</button>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </form>
+    </div>
+</div>

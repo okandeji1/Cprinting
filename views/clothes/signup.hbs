@@ -2,13 +2,13 @@
     <div class="col-md-4 col-md-offset-4">
         <h1>Sign Up</h1>
         {{#if hasErrors}}
-            <div class="alert alert-danger">
-                {{#each messages}}
-                    <p>{{this}}</p>
-                {{/each}}
-            </div>
+        <div class="alert alert-danger">
+            {{#each messages}}
+            <p>{{this}}</p>
+            {{/each}}
+        </div>
         {{/if}}
-        <form action="/signup" method="POST">
+        <form action="/user/signup" method="POST">
             <div class="form-group">
                 <label for="firstname">First Name</label>
                 <input type="text" name="firstname" class="form-control" placeholder="Input Firstname">
@@ -19,17 +19,17 @@
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" name="username" class="form-control" placeholder="E-Mail">
+                <input type="email" name="email" class="form-control" placeholder="E-Mail">
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
                 <input type="password" name="password" class="form-control" placeholder="Password">
             </div>
             <div class="form-group">
-                <label for="phone">Phone Number</label>
-                <input type="text" name="phone" class="form-control" placeholder="Phone Number">
+                <label for="phone">Confirm Password</label>
+                <input type="password" name="cpassword" class="form-control" placeholder="Confirm Password">
             </div>
-            <input type="hidden" name="_csrf" value="{{csrfToken}}">
+            <input type="hidden" name="_csrf" value="{{_csrfToken}}">
             <button class="btn btn-success" type="submit">Sign Up</button>
         </form>
     </div>
