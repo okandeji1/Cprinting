@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var fs = require('fs');
 var csrf = require('csurf');
 var con = require('../../model/config');
 var csrfProtection = csrf();
@@ -9,15 +8,17 @@ router.use(csrfProtection);
 
 const product = {}
     /* GET home page. */
-router.get('/add-product', isLoggedIn, async(req, res) => {
+router.get('/', isLoggedIn, async(req, res) => {
+    let products = await product._fetchAllproduct(1)
     let allCategories = await product._selectAllCat();
-    if (allCategories.error) {
-        console.log(allCategories.error)
+    if (products.error) {
+        console.log(products.error)
     } else {
         var messages = req.flash('error')
         var success = req.flash('success')[0]
         res.render('clothes/admin/product', {
             layout: 'layouts/admin',
+            products,
             allCategories,
             _csrfToken: req.csrfToken(),
             messages: messages,
@@ -28,7 +29,7 @@ router.get('/add-product', isLoggedIn, async(req, res) => {
 });
 
 // collect product post
-router.post('/add-product', (req, res, done) => {
+router.post('/', (req, res, done) => {
     let form = new formidable.IncomingForm();
     form.uploadDir = './public/uploads/products';
     form.keepExtensions = true;
@@ -98,6 +99,9 @@ router.get('/product/:_id', isLoggedIn, async(req, res, next) => {
     res.render('single-product', { singleProduct: singleProduct });
 });
 
+
+module.exports = router;
+
 // Force user to login
 function isLoggedIn(req, res, next) {
     if (req.session.user && req.cookies.user_sid) {
@@ -129,8 +133,6 @@ product._singleProduct = (id) => {
             })
         } catch (error) {
             resolved({ "error": error })
-            console.log(error)
-            return
         }
     })
 }
@@ -179,39 +181,10 @@ product._editProduct = (price, id) => {
             })
         } catch (error) {
             resolved({ "error": error })
-            console.log(error)
-            return
         }
     })
 }
 
-// Add more units to a product
-product._addUnits = (units, id) => {
-    return new Promise((resolved) => {
-        try {
-            con.realConnect.query('UPDATE `products` SET `unit` = ? WHERE `id` = ?', [units, id], (error, result) => {
-                resolved(error ? { "error": error } : { "data": result })
-            })
-        } catch (error) {
-            resolved({ "error": error })
-            console.log(error)
-            return
-        }
-    })
-}
-
-//Delete a product
-product._removeProduct = (id) => {
-    return new Promise(resolved => {
-        con.realConnect.query('DELETE FROM `products` WHERE `id` = ?', [id], (err, rows) => {
-            if (err) {
-                resolved({ "error": err });
-            } else {
-                resolved('The template has been deleted');
-            }
-        });
-    })
-}
 
 // Get all products on the landing page
 product._selectProducts = () => {
@@ -252,4 +225,3 @@ product._getCatId = (category) => {
         }
     })
 }
-module.exports = router;

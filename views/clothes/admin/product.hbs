@@ -1,6 +1,9 @@
-<div class="row">
-    <div class="col-sm-6 col-md-4 col-md-offset-4 col-sm-offset-3">
-        <h1>Product</h1>
+<section class="wrapper">
+    <h3><i class="fa fa-angle-right"></i> Products</h3>
+    <p><a class="wow fadeIn add-to-cart" href="" data-toggle="modal" data-target="#addNew">Add New</a>
+    </p>
+    <!-- row -->
+    <div class="row mt">
         {{#if hasErrors}}
         <div class="alert alert-danger">
             {{#each messages}}
@@ -12,56 +15,107 @@
         <div class="alert alert-success">
         </div>
         {{/if}}
-        <form action="/product/add-product?_csrf={{_csrfToken}}" method="POST" enctype="multipart/form-data">
-            <div class="row">
-                {{#each allCategories}}
-                <div class="col-xs-12">
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" name="name" id="" class="form-control">
-                    </div>
-                </div>
-                <div class="col-xs-12">
-                    <div class="form-group">
-                        <label for="price">Price</label>
-                        <input type="text" class="form-cntrol" name="price" placeholder="Input Price">
-                    </div>
-                </div>
-                <div class="col-xs-12">
-                    <div class="form-group">
-                        <label for="unit">Units</label>
-                        <input type="text" class="form-cntrol" name="unit" placeholder="Add units">
-                    </div>
-                </div>
-                <div class="col-xs-12">
-                    <div class="form-group">
-                        <label for="description">Description</label>
-                        <textarea name="description" id="" placeholder="Description" class="form-control"></textarea>
-                    </div>
-                </div>
-                <div class="col-xs-12">
-                    <div class="form-group">
-                        <label for="image">Image</label>
-                        <input type="file" name="image" id="">
-                    </div>
-                </div>
-                <div class="col-xs-12">
-                    <div class="form-group">
-                        <label for="category">Category</label>
-                        <select name="category" id="" class="form-control">
-                            <option value="">Select category</option>
-                            <option value="{{name}}">{{name}}</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-xs-12">
-                    <div class="form-group">
-                        <input type="hidden" name="_csrf" value="{{_csrfToken}}">
-                        <button class="btn btn-success" type="submit">Buy Now</button>
-                    </div>
-                </div>
-                {{/each}}
+        <div class="col-md-12">
+            <div class="content-panel">
+                <table class="table table-striped table-advance table-hover">
+                    <h4><i class="fa fa-angle-right"></i> Product Table</h4>
+                    <hr>
+                    <thead>
+                        <tr>
+                            <th><i class="fa fa-bullhorn"></i> Category</th>
+                            <th><i class=" fa fa-edit"></i> name</th>
+                            <th><i class="fa fa-bookmark"></i> Price</th>
+                            <th class="hidden-phone"><i class="fa fa-question-circle"></i> Description</th>
+                            <th>Modified</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each products}}
+                        <tr>
+                            <td>{{category}}</td>
+                            <td class="hidden-phone">{{name}}</td>
+                            <td>{{price}}</td>
+                            <td>{{description}}</td>
+                            <td>
+                                <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
+                                <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
             </div>
-        </form>
+            <!-- /content-panel -->
+        </div>
+        <!-- /col-md-12 -->
+    </div>
+    <!-- /row -->
+</section>
+
+{{!-- Modal zone --}}
+<div class="modal fade" id="addNew" tabindex="-1" role="dialog" aria-labelledby="addNew" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addNew">Add New Product</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/product?_csrf={{_csrfToken}}" method="POST" enctype="multipart/form-data">
+                    <div class="row">
+                        {{#each allCategories}}
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" name="name" id="" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label for="price">Price</label>
+                                <input type="text" class="form-cntrol" name="price" placeholder="Input Price">
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label for="unit">Units</label>
+                                <input type="text" class="form-cntrol" name="unit" placeholder="Add units">
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label for="description">Description</label>
+                                <textarea name="description" id="" placeholder="Description"
+                                    class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label for="image">Image</label>
+                                <input type="file" name="image" id="">
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label for="category">Category</label>
+                                <select name="category" id="" class="form-control">
+                                    <option value="">Select category</option>
+                                    <option value="{{name}}">{{name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <input type="hidden" name="_csrf" value="{{_csrfToken}}">
+                                <button class="btn btn-round btn-success" type="submit">Add Product</button>
+                            </div>
+                        </div>
+                        {{/each}}
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </div>

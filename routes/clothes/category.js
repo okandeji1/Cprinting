@@ -19,7 +19,7 @@ router.get('/', isLoggedIn, (req, res, next) => {
     });
 });
 
-router.post('/', async(req, res, done) => {
+router.post('/', isLoggedIn, async(req, res, done) => {
     let name = req.body.name;
     let type = req.body.type;
     // Validation 
@@ -58,19 +58,13 @@ router.post('/', async(req, res, done) => {
 
 // Force user to login
 function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
+    if (req.session.user && req.cookies.user_sid) {
         return next();
     }
     req.session.oldUrl = req.url;
     res.redirect('/user/login');
 }
 
-function notLoggedIn(req, res, next) {
-    if (!req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect('/user/login');
-}
 // Check if category already exist
 category._checkCat = (name) => {
         return new Promise(resolve => {

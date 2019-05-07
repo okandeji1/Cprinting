@@ -9,6 +9,16 @@ var csrfProtection = csrf();
 router.use(csrfProtection);
 const user = {}
 
+// Users Page
+router.get('/all-user', isLoggedIn, async(req, res) => {
+    let allUsers = await user._fetchAllUser(1);
+    if (allUsers.error) {
+        console.log(allUsers.error)
+        return
+    }
+    res.render('clothes/admin/user', { layout: 'layouts/admin', allUsers })
+})
+
 // dashboard
 router.get('/dashboard', isLoggedIn, (req, res) => {
     res.render('clothes/admin/dashboard', { layout: 'layouts/admin' })
@@ -32,7 +42,7 @@ router.get('/account', isLoggedIn, async(req, res) => {
 })
 
 // Update User Account
-router.post('/update', (req, res, done) => {
+router.post('/update', isLoggedIn, (req, res, done) => {
     let form = new formidable.IncomingForm();
     form.uploadDir = './public/uploads/users';
     form.keepExtensions = true;
@@ -96,7 +106,6 @@ router.get('/logout', isLoggedIn, (req, res) => {
             if (err) {
                 console.log(err)
             } else {
-                // req.flash('success', 'You have successfully logged out')
                 res.redirect('/user/login')
                 return
             }
@@ -177,11 +186,6 @@ router.post('/login', async(req, res) => {
                 if (err) {
                     console.log(err)
                 } else {
-                    if (req.session.oldUrl) {
-                        var oldUrl = req.session.oldUrl
-                        req.session.oldUrl = null
-                        res.redirect(oldUrl);
-                    }
                     if (!loginUser[0].is_admin) {
                         res.redirect('/user/account')
                         return
@@ -266,11 +270,6 @@ router.post('/signup', async(req, res) => {
         if (userReg.hasOwnProperty('error')) {
             console.log(userReg.error)
             return
-        }
-        if (req.session.oldUrl) {
-            var oldUrl = req.session.oldUrl
-            req.session.oldUrl = null;
-            res.redirect(oldUrl);
         } else {
             req.flash('You have successfully registered')
             res.redirect('/user/account')
@@ -354,4 +353,39 @@ user._myOrder = (userId) => {
             resolved(error)
         }
     })
+}
+
+// Get all products with pagination
+user._fetchAllUser = (startIndex) => {
+    var startPoint
+    if (typeof startIndex === 'undefined' || startIndex === '' || startIndex === 1) {
+        startPoint = 0;
+    } else {
+        startPoint = (startIndex - 1) * 20
+    }
+    return new Promise(resolved => {
+        con.realConnect.query('SELECT * FROM users LIMIT ?, ?', [startPoint, 20], (err, rows) => {
+            if (err) {
+                resolved({ "error": err })
+                return
+            }
+            con.realConnect.query('SELECT count(*) FROM `users`', (err, done) => {
+                if (err) {
+                    resolved({ "error": err })
+                } else {
+                    let resultJson = {
+                        "result": rows,
+                        "meta": {
+                            "totalRows": done[0]['count(*)'],
+                            "counts": 20
+                        }
+
+                    }
+                    resolved(resultJson);
+                }
+            })
+
+        });
+    })
+
 }

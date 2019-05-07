@@ -2,9 +2,14 @@ var express = require('express');
 var router = express.Router();
 var con = require('../../model/config');
 var Cart = require('../../model/cart_model');
-var stripe = require('stripe')('pk-test_Z8RrHN8qJmYA48M2FGGmpL3N')
+var stripe = require('stripe')('pk_test_wgiGYw1tqPKaoc0P2bbbu39j00jTczgp2k')
 
 const order = {}
+
+// All order page
+router.get('/transaction', isLoggedIn, (req, res) => {
+    res.render('clothes/admin/order', { layout: 'layouts/admin' })
+})
 
 // Checkout page
 router.get('/checkout', isLoggedIn, (req, res, next) => {
@@ -22,7 +27,7 @@ router.get('/checkout', isLoggedIn, (req, res, next) => {
 })
 
 // Process Payment
-router.post('/checkout', async(req, res) => {
+router.post('/checkout', isLoggedIn, (req, res) => {
     if (!req.session.cart) {
         return res.redirect('/shopping-cart')
     }
@@ -32,7 +37,7 @@ router.post('/checkout', async(req, res) => {
         currency: "NGN",
         source: req.body.stripeToken, // obtained with Stripe js
         description: "Test Charge"
-    }, function(err, charge) {
+    }, async function(err, charge) {
         if (err) {
             req.flash('error', err.message)
             return res.redirect('/checkout')
