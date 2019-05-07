@@ -1,3 +1,156 @@
-<div>
-    <h1>Welcome to your dashboard</h1>
-</div>
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+
+                <!-- Profile Image -->
+                {{#if success}}
+                <div class="alert alert-success">
+                    {{success}}
+                </div>
+                {{/if}}
+                <div class="card card-primary card-outline">
+                    <div class="card-body box-profile">
+                        {{#each user}}
+                        <div class="text-center">
+                            <img class="profile-user-img img-fluid img-circle" src="../../dist/img/user4-128x128.jpg"
+                                alt="User profile picture">
+                        </div>
+
+                        <h3 class="profile-username text-center">{{firstname}} {{lastname}}</h3>
+
+                        <p class="text-muted text-center">{{email}}</p>
+                    </div>
+                    {{/each}}
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+
+                <!-- About Me Box -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">About Me</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <strong><i class="fa fa-book mr-1"></i> Address</strong>
+
+                        <p class="text-muted">
+                            {{address}}
+                        </p>
+
+                        <hr>
+
+                        <strong><i class="fa fa-map-marker mr-1"></i> Location</strong>
+
+                        <p class="text-muted">{{state}}, {{country}}</p>
+
+                        <hr>
+
+                        <strong><i class="fa fa-pencil mr-1"></i> Contact</strong>
+
+                        <p class="text-muted">
+                            <span class="tag tag-info">{{phone}}</span>
+                        </p>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-header p-2">
+                        <ul class="nav nav-pills">
+                            <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Settings</a>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" href="#orders" data-toggle="tab">My Orders</a>
+                            </li>
+                        </ul>
+                    </div><!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <div class="active tab-pane" id="settings">
+                                <form class="form-horizontal" method="POST" action="/user/update?_csrf={{_csrfToken}}"
+                                    enctype="multipart/form-data">
+                                    <div class="form-group">
+                                        <label for="phone" class="col-sm-2 control-label">Phone Number</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="text" name="phone" class="form-control" id="inputName">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="address" class="col-sm-2 control-label">Address</label>
+
+                                        <div class="col-sm-10">
+                                            <textarea name="address" class="form-control"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="city" class="col-sm-2 control-label">City</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="text" name="city" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="state" class="col-sm-2 control-label">State</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" name="state"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="country" class="col-sm-2 control-label">Country</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" name="country">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="image" class="col-sm-2 control-label">Image</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="file" class="form-control" name="image">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <input type="hidden" name="_csrf" value="{{_csrfToken}}">
+                                            <button type="submit" class="btn btn-success">Update</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="tab-pane" id="orders">
+                                {{#each userOrder}}
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <ul class="list-group">
+                                            {{#each this.items}}
+                                            <li class="list-group-item">
+                                                <span class="badge">{{this.price}}</span>
+                                                {{this.item.title}} | {{this.qty}} Units
+                                            </li>
+                                            {{/each}}
+                                        </ul>
+                                    </div>
+                                    <div class="panel-footer">{{this.cart.totalPrice}}</div>
+                                </div>
+                                {{/each}}
+                            </div>
+                            <!-- /.tab-pane -->
+                        </div>
+                        <!-- /.tab-content -->
+                    </div><!-- /.card-body -->
+                </div>
+                <!-- /.nav-tabs-custom -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->

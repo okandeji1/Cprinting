@@ -1,111 +1,114 @@
 {{#if products}}
-        <div class="products-shop-cart" id="product-page-cart">
-               <div class=" container clearfix">
-                  <div class="row">
-                          <div class="col-lg-9 col-md-9 col-md-12 col-xs-12">
-                        <div class="table-responsive">
-                           <h2>Your Cart Items</h2>
-                           <table class="table cart-in">
-                              <thead>
-                                 <tr>
-                                    <th scope="col">Product Name</th>
-                                    <th scope="col" >Price</th>
-                                    <th scope="col">Quantity</th>
-                                    <th scope="col">Total Price</th>
-                                    <th> </th>
-                                 </tr>
-                              </thead>
-                              <tbody>
-                            {{#each products}}
-                                 <tr>
-                                    <td><img src="image/shop/your-order-1.jpg" class="img-responsive" alt="product" width="100" height="100"/> </td>
-                                    <td class="des head">{{this.item.name}}<br/><span> Style :<a> Classic</a></span><br> <span> Color : <a>Gray</a></span></td>
-                                    <td class="des">{{this.price}}</td>
-                                    <td class="des in"><input type="number" name="quantity" min="0" value="1">{{this.qty}}</td>
-                                    <td class="des">{{totalPrice}}</td>
-                                    <td class="des bt">
-                                       <ul>
-                                          <li><button class="btn"><i class="fa fa-remove"></i> </button></li>
-                                          <li> <button class="btn"><i class="fa fa-edit"></i> </button></li>
-                                       </ul>
-                                    </td>
-                                 </tr>
-                            {{/each}}
-                              </tbody>
-                           </table>
+<div class="products-shop-cart" id="product-page-cart">
+   <div class=" container clearfix">
+      <div class="row">
+         <div class="col-lg-9 col-md-9 col-md-12 col-xs-12">
+            <div class="table-responsive">
+               <h2>Your Cart Items</h2>
+               <table class="table cart-in">
+                  <thead>
+                     <tr>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Total Price</th>
+                        <th> </th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     {{#each products}}
+                     <tr>
+                        <td><img src="/uploads/products/{{image}}" class="img-responsive" alt="product" width="100"
+                              height="100" /> </td>
+                        <td class="des head">{{this.item.name}}<br /><span> Style :<a> Classic</a></span><br> <span>
+                              Color : <a>Gray</a></span></td>
+                        <td class="des">{{this.price}}</td>
+                        <td class="des in"><input type="number" name="quantity" min="0" value="1">{{this.qty}}</td>
+                        <td class="des">{{totalPrice}}</td>
+                        <td class="des bt">
+                           <ul>
+                              <li><button class="btn"><i class="fa fa-remove"></i> </button></li>
+                              <li> <button class="btn"><i class="fa fa-edit"></i> </button></li>
+                           </ul>
+                        </td>
+                     </tr>
+                     {{/each}}
+                  </tbody>
+               </table>
+            </div>
+            <div class="check-up clearfix">
+               <div class="col-sm-12  col-md-6">
+                  <div class="Continue Shopping">
+                     <a>Continue Shopping</a>
+                  </div>
+               </div>
+               <div class="col-sm-12 col-md-6 ">
+                  <ul class="cart-respond">
+                     <li><button class="btn update text-uppercase "><i class="fa fa-refresh"></i> Update Cart</button>
+                     </li>
+                     <li><button class="btn update text-uppercase "><i class="fa fa-remove"></i>Clear all</button></li>
+                  </ul>
+               </div>
+            </div>
+            <div class="shipping-details clearfix">
+               <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                  <div class="head">
+                     <h2>Calculate Shipping</h2>
+                  </div>
+                  <div class="form-inner">
+                     <form action="shop-5.html">
+                        <div class="form-group in-sec">
+                           <select class="select form-control" id="option">
+                              <option>United Kingdom (UK)</option>
+                              <option>Location</option>
+                              <option>Location</option>
+                              <option>Location</option>
+                              <option>Location</option>
+                              <option>Locationa</option>
+                           </select>
                         </div>
-                        <div class="check-up clearfix">
-                           <div class="col-sm-12  col-md-6">
-                              <div class="Continue Shopping">
-                                 <a>Continue Shopping</a>
+                        <div class="form-group in">
+                           <input class="pcode form-control" placeholder="Zip Code" type="search">
+                        </div>
+                        <div class="row">
+                           <div class="col-lg-12">
+                              <div class=" update pull-left ">
+                                 <button class="btn text-uppercase ">Update Total</button>
                               </div>
                            </div>
-                           <div class="col-sm-12 col-md-6 ">
-                              <ul class="cart-respond">
-                                 <li><button class="btn update text-uppercase "><i class="fa fa-refresh"></i> Update Cart</button></li>
-                                 <li><button class="btn update text-uppercase "><i class="fa fa-remove"></i>Clear all</button></li>
-                              </ul>
-                           </div>
                         </div>
-                        <div class="shipping-details clearfix">
-                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                              <div class="head">
-                                 <h2>Calculate Shipping</h2>
-                              </div>
-                              <div class="form-inner">
-                                 <form action="shop-5.html">
-                                    <div class="form-group in-sec">
-                                       <select class="select form-control"  id="option">
-                                          <option>United Kingdom (UK)</option>
-                                          <option>Location</option>
-                                          <option>Location</option>
-                                          <option>Location</option>
-                                          <option>Location</option>
-                                          <option>Locationa</option>
-                                       </select>
-                                    </div>
-                                    <div class="form-group in">
-                                       <input class="pcode form-control" placeholder="Zip Code" type="search">
-                                    </div>
-                                    <div class="row" >
-                                       <div class="col-lg-12">
-                                          <div class=" update pull-left ">
-                                             <button class="btn text-uppercase ">Update Total</button>
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </form>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                        <div class="checkout-side">
-                           <h2>Summary</h2>
-                           <div class="sub-total">
-                              <ul class="head">
-                                {{#each products}}
-                                 <li>{{this.item.title}}</li>
-                                 <li>{{this.qty}}</li>
-                                 <li>{{this.price}}</li>
-                                 {{/each}}
-                              </ul>
-                           </div>
-                           <div class="Placeorderbtn">
-                              <a href="/checkout" class="btn btn-outline-success" type="button">Proceed to Checkout</a>
-                           </div>
-                        </div>
-                     </div>                     
+                     </form>
                   </div>
                </div>
             </div>
+         </div>
+         <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+            <div class="checkout-side">
+               <h2>Summary</h2>
+               <div class="sub-total">
+                  <ul class="head">
+                     {{#each products}}
+                     <li>{{this.item.title}}</li>
+                     <li>{{this.qty}}</li>
+                     <li>{{this.price}}</li>
+                     {{/each}}
+                  </ul>
+               </div>
+               <div class="Placeorderbtn">
+                  <a href="/order/checkout" class="btn btn-outline-success" type="button">Proceed to
+                     Checkout</a>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
 {{else}}
 <div class="row">
-    <div class="col-lg-9 col-md-9 col-md-12 col-xs-12">
-        <div class="card">
-            <h2>No Items in Cart</h2>
-        </div>
-    </div>
+   <div class="col-lg-9 col-md-9 col-md-12 col-xs-12">
+      <div class="card">
+         <h2>No Items in Cart</h2>
+      </div>
+   </div>
 </div>
 {{/if}}
-            

@@ -9,18 +9,20 @@ router.use(csrfProtection);
 
 const product = {}
     /* GET home page. */
-router.get('/add-product', async(req, res) => {
+router.get('/add-product', isLoggedIn, async(req, res) => {
     let allCategories = await product._selectAllCat();
     if (allCategories.error) {
         console.log(allCategories.error)
     } else {
         var messages = req.flash('error')
+        var success = req.flash('success')[0]
         res.render('clothes/admin/product', {
             layout: 'layouts/admin',
             allCategories,
             _csrfToken: req.csrfToken(),
             messages: messages,
             hasErrors: messages.length > 0,
+            success: success,
         });
     }
 });
@@ -28,15 +30,16 @@ router.get('/add-product', async(req, res) => {
 // collect product post
 router.post('/add-product', (req, res, done) => {
     let form = new formidable.IncomingForm();
+    form.uploadDir = './public/uploads/products';
+    form.keepExtensions = true;
+    form.maxFieldsSize = 10 * 1024 * 1024; //10mb
     form.parse(req, async(err, fields, files) => {
-        let name = fields.names;
+        let name = fields.name;
         let price = fields.price;
         let unit = fields.unit;
         let description = fields.description;
         let image = files.image.path;
-        let category = fields.category;
-        console.log(image)
-        return
+        // let category = fields.category;
 
         if (name === '' || typeof name === 'undefined') {
             req.flash('error', 'Please product name is required')
@@ -62,23 +65,25 @@ router.post('/add-product', (req, res, done) => {
             req.flash('error', 'Please upload a product image')
             res.redirect('/product/add-product')
         }
-        let getCat = product._getCatId(categoryId)
-        if (getCat) {
-            console.log(getCat.error)
-            return
-        } else {
-            let categoryId = getCat[0].id
-            let productsArray = [name, price, unit, description, image, categoryId]
-            let newProduct = await product._addProduct(productsArray);
-            if (newProduct.hasOwnProperty('error')) {
-                console.log(newProduct.error)
-                return
-            }
-            console.log('New product added')
-            req.flash('success', 'You have successfully added a new product')
-            res.redirect('/login')
+        // let getCat = product._getCatId(categoryId)
+        // if (getCat) {
+        //     console.log(getCat.error)
+        //     return
+        // } else {
+        // let categoryId = getCat[0].id
+        let categoryId = 2;
+        let imagePath = image.split('/').pop()
+        let productsArray = [categoryId, name, price, unit, description, imagePath]
+        let newProduct = await product._addProduct(productsArray);
+        if (newProduct.hasOwnProperty('error')) {
+            console.log(newProduct.error)
             return
         }
+        console.log('New product added')
+        req.flash('success', 'You have successfully added a new product')
+        res.redirect('/product/add-product')
+        return
+        // }
     });
 
 })
@@ -95,24 +100,17 @@ router.get('/product/:_id', isLoggedIn, async(req, res, next) => {
 
 // Force user to login
 function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
+    if (req.session.user && req.cookies.user_sid) {
         return next();
     }
     req.session.oldUrl = req.url;
     res.redirect('/user/login');
 }
 
-function notLoggedIn(req, res, next) {
-    if (!req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect('/user/login');
-}
-
 // Add a new product
 product._addProduct = (productsArray) => {
     return new Promise(resolved => {
-        con.realConnect.query('INSERT INTO `products` (`name`, price, unit, `description`, `image`, categories_id) VALUES(?, ?, ?, ?, ?, ?)', productsArray, (err, done) => {
+        con.realConnect.query('INSERT INTO `products` (`category_id`, `name`, `price`, `units`, `description`, `image`) VALUES(?, ?, ?, ?, ?, ?)', productsArray, (err, done) => {
             if (err) {
                 resolved({ 'error': 'Error' + err })
             } else {

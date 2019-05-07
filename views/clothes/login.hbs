@@ -8,17 +8,20 @@
             {{/each}}
         </div>
         {{/if}}
-        <form action="/user/login" method="POST">
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" name="email" class="form-control" placeholder="E-Mail">
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" name="password" class="form-control" placeholder="Password">
-            </div>
-            <input type="hidden" name="_csrf" value="{{_csrfToken}}">
-            <button class="btn btn-success" type="submit">Sign Up</button>
-        </form>
+        <div class="p-3 shadow-lg">
+            <form action="/user/login" method="POST">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" class="form-control" placeholder="E-Mail">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" class="form-control" placeholder="Password">
+                </div>
+                <input type="hidden" name="_csrf" value="{{_csrfToken}}">
+                <button class="btn btn-success" type="submit">Login</button>
+            </form>
+            <p class="text-center">Don't have an account yet? <a href="/user/signup">Sign Up</a></p>
+        </div>
     </div>
 </div>

@@ -8,6 +8,12 @@ var csrfProtection = csrf();
 router.use(csrfProtection);
 
 checkout = {}
+    // Checkout
+
+router.post('/checkout-confirmation', (req, res) => {
+    console.log(req.body)
+    return
+})
 router.post('/payment', (req, res, next) => {
     let user = req.session.user;
     let email = user.email;
@@ -51,7 +57,18 @@ checkout._makeRequest = (reference, email, amount) => {
     })
 }
 
+// Force user to login
+function isLoggedIn(req, res, next) {
+    if (req.session.user && req.cookies.user_sid) {
+        return next();
+    }
+    req.session.oldUrl = req.url;
+    res.redirect('/user/login');
+}
+
 function generatePin() {
     var randomNum = Math.floor(Math.random() * 9999999999999);
     return "SOL-" + randomNum;
 }
+
+module.exports = router;

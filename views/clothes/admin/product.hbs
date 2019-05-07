@@ -8,6 +8,10 @@
             {{/each}}
         </div>
         {{/if}}
+        {{#if success}}
+        <div class="alert alert-success">
+        </div>
+        {{/if}}
         <form action="/product/add-product?_csrf={{_csrfToken}}" method="POST" enctype="multipart/form-data">
             <div class="row">
                 {{#each allCategories}}

@@ -1,0 +1,486 @@
+<div class="row">
+    <div class="col-sm-6 col-md-4 col-md-offset-4 col-sm-offset-3">
+        <div id="success" class="alert alert-success {{#if noMessages}}hidden{{/if}}">
+            {{successMsg}}
+        </div>
+    </div>
+</div>
+<div class="row hotel2-slider">
+    <div id="room-gallery" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#room-gallery" data-slide-to="0" class="active"></li>
+            <li data-target="#room-gallery" data-slide-to="1"></li>
+        </ol>
+        <div class="carousel-inner" role="listbox">
+            <div class="item active">
+                <img src="/images/catagory-m-3.jpg" alt="Cruise">
+                <div class="carousel-caption">
+                    <div class="wrapper">
+                        <h2><span>QUALITY WEARS</span></h2>
+                        <h4>Lorem Lpsum is simply a dummy text of typesetting industry</h4>
+                        <a href="#">KNOW MORE</a>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <img src="/images/img6.png" alt="Cruise">
+                <div class="carousel-caption">
+                    <div class="wrapper">
+                        <h2><span>LOWEST PRICE GUARANTEED</span></h2>
+                        <h4>Lorem Lpsum is simply a dummy text of typesetting industry</h4>
+                        <a href="#">KNOW MORE</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a class="left carousel-control" href="#room-gallery" role="button" data-slide="prev">
+            <span class="fa fa-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#room-gallery" role="button" data-slide="next">
+            <span class="fa fa-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</div>
+<!-- END: HOMEPAGE SLIDER -->
+
+<!-- BEGIN: SEARCH SECTION -->
+<div class="row room-check-horizontal">
+    <div class="container">
+        <form>
+            <div class="col-md-4 col-sm-12 col-xs-12">
+                <label>PICK UP LOCATION</label>
+                <div class="input-group">
+                    <input type="text" name="destination" class="form-control" placeholder="E.g Paris" required>
+                    <span class="input-group-addon"><i class="fa fa-map-marker fa-fw"></i></span>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-3 col-xs-6">
+                <label>PICK UP DATE</label>
+                <div class="input-group">
+                    <input type="text" id="check_in" name="check-in" class="form-control" placeholder="DD/MM/YYYY"
+                        required>
+                    <span class="input-group-addon"><i class="fa fa-calendar fa-fw"></i></span>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-3 col-xs-6">
+                <label>RETURN DATE</label>
+                <div class="input-group">
+                    <input type="text" id="check_out" name="check-out" class="form-control" placeholder="DD/MM/YYYY"
+                        required>
+                    <span class="input-group-addon"><i class="fa fa-calendar fa-fw"></i></span>
+                </div>
+            </div>
+            <div class="col-md-1 col-sm-3 col-xs-6">
+                <label>BRAND</label>
+                <select class="selectpicker" name="car_brand">
+                    <option>Audi</option>
+                    <option>BMW</option>
+                    <option>Mercedes</option>
+                </select>
+            </div>
+            <div class="col-md-1 col-sm-3 col-xs-6">
+                <label>TYPE</label>
+                <select class="selectpicker" name="car_type">
+                    <option>Sedan</option>
+                    <option>Van</option>
+                    <option>Coupe</option>
+                    <option>Lime</option>
+                </select>
+            </div>
+            <div class="clearfix visible-xs-block"></div>
+            <div class="col-md-2 text-center check-button">
+                <button type="submit">SEARCH</button>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- END: SEARCH SECTION -->
+<!-- START: HOW IT WORK -->
+<section id="how-it-work">
+    <div class="row work-row">
+        <div class="container clear-padding">
+            <div class="section-title text-center">
+                <h2>HOW IT WORKS?</h2>
+                <h4>SEARCH - SELECT - ORDER</h4>
+                <div class="space"></div>
+                <p>
+                    Lorem Ipsum is simply dummy text. Lorem Ipsum is simply dummy text of the printing and
+                    typesetting industry.<br> Lorem Ipsum has been the industry's standard dummy text ever since
+                    the 1500s.
+                </p>
+            </div>
+            <div class="work-step">
+                <div class="col-md-4 col-sm-4 first-step text-center">
+                    <i class="fa fa-search"></i>
+                    <h5>SEARCH WEARS</h5>
+                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                </div>
+                <div class="col-md-4 col-sm-4 second-step text-center">
+                    <i class="fa fa-heart-o"></i>
+                    <h5>SELECT WEARS</h5>
+                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                </div>
+                <div class="col-md-4 col-sm-4 third-step text-center">
+                    <i class="fa fa-shopping-cart"></i>
+                    <h5>ORDER WEARS</h5>
+                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- END: HOW IT WORK -->
+<!-- START: PRODUCT SECTION-->
+<section class="hotel-product home-product">
+    <!-- START: PRODUCT ROW 1 -->
+    {{#each products}}
+    <div class="row light-row">
+        {{#each this}}
+        <div class="col-md-6 clear-padding wow slideInLeft">
+            <div class="product-wrapper">
+                <div class="col-md-6 col-sm-6 home-product-padding tooltip-right">
+                    <h4>{{this.category}}{{name}}</h4>
+                    <h5><i class="fa fa-certificate"></i> {{this.name}}</h5>
+                    <p>{{this.description}}</p>
+                    <div class="rating-box">
+                        <div class="pull-left">
+                        </div>
+                        <div class="pull-right">
+                            <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+                                class="fa fa-star"></i><i class="fa fa-star-half-o"></i><span>4.5/5</span>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="pricing-info">
+                        <div class="pull-left">
+                            <span>{{this.price}}</span>
+                        </div>
+                        <div class="pull-right">
+                            <a href="/add-to-cart/{{id}}" class="wow fadeIn add-to-cart">Add To Cart</a>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="col-md-6 col-sm-6 clear-padding image-sm text-center">
+                    <img src="/uploads/products/{{this.image}}" alt="cruise">
+                    <div class="detail-link-wrapper">
+                        <div class="detail-link">
+                            <a href="#"><i class="fa fa-search"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+    {{/each}}
+    <!-- END: PRODUCT ROW 1 -->
+</section>
+<!-- END: PRODUCT SECTION -->
+
+<!-- BEGIN: TOP DESTINATION -->
+<section id="top-tour-row">
+    <div class="row top-tour">
+        <div class="container">
+            <div class="section-title text-center">
+                <h2>TOP CLOTHES</h2>
+                <h4>CHECK OUT OUR TOP WEARS</h4>
+            </div>
+            {{#each products}}
+            {{#each this}}
+            <div class="col-md-4 col-sm-6 tour-grid clear-padding wow slideInUp" data-wow-delay="0.1s">
+                <img src="/uploads/products/{{this.image}}" alt="Cruise">
+                <div class="tour-brief">
+                    <div class="pull-left">
+                        <h4><i class="fa fa-certificate"></i>{{this.name}}</h4>
+                    </div>
+                    <div class="pull-right">
+                        <h4>{{this.price}}</h4>
+                    </div>
+                </div>
+                <div class="tour-detail text-center">
+                    <p><strong><i class="fa fa-road"></i>Category: </strong> {{this.category}}{{name}}</p>
+                    <p><strong><i class="fa fa-clock-o"></i>Name: </strong>{{this.name}}</p>
+                    <p><strong><i class="fa fa-clock-o"></i>Description: </strong>{{this.description}}</p>
+                    <p><strong><i class="fa fa-clock-o"></i>Price: </strong>{{this.price}}</p>
+                    <p><a class="wow fadeIn add-to-cart" href="/detail:{{id}}" data-toggle="modal"
+                            data-target="#detail">DETAIL</a>
+                    </p>
+                </div>
+            </div>
+            {{/each}}
+            {{/each}}
+        </div>
+    </div>
+</section>
+<!-- END: TOP DESTINATION -->
+<!-- BEGIN: RECENT BLOG POST -->
+{{!-- <section id="recent-blog">
+    <div class="row top-offer">
+        <div class="container">
+            <div class="section-title text-center">
+                <h2>RECENT BLOG POSTS</h2>
+                <h4>NEWS</h4>
+            </div>
+            <div class="owl-carousel" id="post-list">
+                <div class="room-grid-view wow slideInUp" data-wow-delay="0.1s">
+                    <img src="assets/images/offer1.jpg" alt="cruise">
+                    <div class="room-info">
+                        <div class="post-title">
+                            <h5>POST TITLE GOES HERE</h5>
+                            <p><i class="fa fa-calendar"></i> Jul 15, 2015</p>
+                        </div>
+                        <div class="post-desc">
+                            <p>Lorem Ipsum is simply dummy text. Lorem Ipsum is simply dummy text of the
+                                printing and typesetting industry.</p>
+                        </div>
+                        <div class="room-book">
+                            <div class="col-md-8 col-sm-6 col-xs-6 clear-padding post-alt">
+                                <h5><i class="fa fa-comments"></i> 2 <i class="fa fa-share-alt"></i> 20 </h5>
+                            </div>
+                            <div class="col-md-4 col-sm-6 col-xs-6 clear-padding">
+                                <a href="#" class="text-center">MORE</a>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="room-grid-view wow slideInUp" data-wow-delay="0.2s">
+                    <img src="assets/images/offer2.jpg" alt="cruise">
+                    <div class="room-info">
+                        <div class="post-title">
+                            <h5>POST TITLE GOES HERE</h5>
+                            <p><i class="fa fa-calendar"></i> Jul 15, 2015</p>
+                        </div>
+                        <div class="post-desc">
+                            <p>Lorem Ipsum is simply dummy text. Lorem Ipsum is simply dummy text of the
+                                printing and typesetting industry.</p>
+                        </div>
+                        <div class="room-book">
+                            <div class="col-md-8 col-sm-6 col-xs-6 clear-padding post-alt">
+                                <h5><i class="fa fa-comments"></i> 2 <i class="fa fa-share-alt"></i> 20 </h5>
+                            </div>
+                            <div class="col-md-4 col-sm-6 col-xs-6 clear-padding">
+                                <a href="#" class="text-center">MORE</a>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="room-grid-view wow slideInUp" data-wow-delay="0.3s">
+                    <img src="assets/images/offer3.jpg" alt="cruise">
+                    <div class="room-info">
+                        <div class="post-title">
+                            <h5>POST TITLE GOES HERE</h5>
+                            <p><i class="fa fa-calendar"></i> Jul 15, 2015</p>
+                        </div>
+                        <div class="post-desc">
+                            <p>Lorem Ipsum is simply dummy text. Lorem Ipsum is simply dummy text of the
+                                printing and typesetting industry.</p>
+                        </div>
+                        <div class="room-book">
+                            <div class="col-md-8 col-sm-6 col-xs-6 clear-padding post-alt">
+                                <h5><i class="fa fa-comments"></i> 2 <i class="fa fa-share-alt"></i> 20 </h5>
+                            </div>
+                            <div class="col-md-4 col-sm-6 col-xs-6 clear-padding">
+                                <a href="#" class="text-center">MORE</a>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="room-grid-view wow slideInUp" data-wow-delay="0.4s">
+                    <img src="assets/images/offer4.jpg" alt="cruise">
+                    <div class="room-info">
+                        <div class="post-title">
+                            <h5>POST TITLE GOES HERE</h5>
+                            <p><i class="fa fa-calendar"></i> Jul 15, 2015</p>
+                        </div>
+                        <div class="post-desc">
+                            <p>Lorem Ipsum is simply dummy text. Lorem Ipsum is simply dummy text of the
+                                printing and typesetting industry.</p>
+                        </div>
+                        <div class="room-book">
+                            <div class="col-md-8 col-sm-6 col-xs-6 clear-padding post-alt">
+                                <h5><i class="fa fa-comments"></i> 2 <i class="fa fa-share-alt"></i> 20 </h5>
+                            </div>
+                            <div class="col-md-4 col-sm-6 col-xs-6 clear-padding">
+                                <a href="#" class="text-center">MORE</a>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="room-grid-view wow slideInUp" data-wow-delay="0.5s">
+                    <img src="assets/images/offer3.jpg" alt="cruise">
+                    <div class="room-info">
+                        <div class="post-title">
+                            <h5>POST TITLE GOES HERE</h5>
+                            <p><i class="fa fa-calendar"></i> Jul 15, 2015</p>
+                        </div>
+                        <div class="post-desc">
+                            <p>Lorem Ipsum is simply dummy text. Lorem Ipsum is simply dummy text of the
+                                printing and typesetting industry.</p>
+                        </div>
+                        <div class="room-book">
+                            <div class="col-md-8 col-sm-6 col-xs-6 clear-padding post-alt">
+                                <h5><i class="fa fa-comments"></i> 2 <i class="fa fa-share-alt"></i> 20 </h5>
+                            </div>
+                            <div class="col-md-4 col-sm-6 col-xs-6 clear-padding">
+                                <a href="#" class="text-center">MORE</a>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="room-grid-view wow slideInUp" data-wow-delay="0.6s">
+                    <img src="assets/images/offer2.jpg" alt="cruise">
+                    <div class="room-info">
+                        <div class="post-title">
+                            <h5>POST TITLE GOES HERE</h5>
+                            <p><i class="fa fa-calendar"></i> Jul 15, 2015</p>
+                        </div>
+                        <div class="post-desc">
+                            <p>Lorem Ipsum is simply dummy text. Lorem Ipsum is simply dummy text of the
+                                printing and typesetting industry.</p>
+                        </div>
+                        <div class="room-book">
+                            <div class="col-md-8 col-sm-6 col-xs-6 clear-padding post-alt">
+                                <h5><i class="fa fa-comments"></i> 2 <i class="fa fa-share-alt"></i> 20 </h5>
+                            </div>
+                            <div class="col-md-4 col-sm-6 col-xs-6 clear-padding">
+                                <a href="#" class="text-center">MORE</a>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section> --}}
+<!-- END: RECENT BLOG POST -->
+
+<!-- START: HOTEL GALLERY -->
+{{!-- <section id="hotel-gallery">
+    <div class="row flex-row">
+        <div class="col-lg-5 col-md-5 col-sm-5 hotel-gallery-desc flex-item">
+            <div class="section-title">
+                <h2>C-Class Sedan</h2>
+                <h4>MERCEDES</h4>
+            </div>
+            <div class="tour-gallery">
+                <p><i class="fa fa-clock-o"></i><strong>Age: </strong>2 Year</p>
+                <p><i class="fa fa-tint"></i><strong>Fuel: </strong>Patrol</p>
+                <p><i class="fa fa-road"></i><strong>Travelled: </strong>2100 KM</p>
+                <p><i class="fa fa-dashboard"></i><strong>Top Speed: </strong>210 KM/HR</p>
+                <div class="col-md-6 col-sm-12 col-xs-6 price">
+                    <h4>$99/DAY</h4>
+                </div>
+                <div class="col-md-6 col-sm-12 col-xs-6 detail-link text-center">
+                    <a href="#">RESERVE NOW</a>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="col-lg-7 col-md-7 col-sm-7 clear-padding flex-item hotel-gallery-img">
+            <div id="hotel-images" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-target="#hotel-images" data-slide-to="0" class="active"></li>
+                    <li data-target="#hotel-images" data-slide-to="1"></li>
+                </ol>
+                <div class="carousel-inner" role="listbox">
+                    <div class="item active">
+                        <img src="assets/images/car-gallery.jpg" alt="Cruise">
+                    </div>
+                    <div class="item">
+                        <img src="assets/images/car-gallery1.jpg" alt="Cruise">
+                    </div>
+                </div>
+                <a class="left carousel-control" href="#hotel-images" role="button" data-slide="prev">
+                    <span class="fa fa-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#hotel-images" role="button" data-slide="next">
+                    <span class="fa fa-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section> --}}
+<!-- END: HOTEL GALLERY -->
+<!-- BEGIN: SUBSCRIBE SECTION -->
+<!-- END: SUBSCRIBE SECTION -->
+<!-- START: WHY CHOOSE US SECTION -->
+<section id="why-choose-us">
+    <div class="row choose-us-row">
+        <div class="container clear-padding">
+            <div class="light-section-title text-center">
+                <h2>WHY CHOOSE US?</h2>
+                <h4>REASONS TO TRUST US</h4>
+                <div class="space"></div>
+                <p>
+                    Lorem Ipsum is simply dummy text. Lorem Ipsum is simply dummy text of the printing and
+                    typesetting industry.<br> Lorem Ipsum has been the industry's standard dummy text ever since
+                    the 1500s.
+                </p>
+            </div>
+            <div class="col-md-4 col-sm-4 wow slideInLeft">
+                <div class="choose-us-item text-center">
+                    <div class="choose-icon"><i class="fa fa-car"></i></div>
+                    <h4>Handpicked Wears</h4>
+                    <p>Lorem Ipsum is simply dummy text. Lorem Ipsum is simply dummy text of the printing and
+                        typesetting industry.</p>
+                    <a href="#">KNOW MORE</a>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-4 wow slideInUp">
+                <div class="choose-us-item text-center">
+                    <div class="choose-icon"><i class="fa fa-phone"></i></div>
+                    <h4>Dedicated Support</h4>
+                    <p>Lorem Ipsum is simply dummy text. Lorem Ipsum is simply dummy text of the printing and
+                        typesetting industry.</p>
+                    <a href="#">KNOW MORE</a>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-4 wow slideInRight">
+                <div class="choose-us-item text-center">
+                    <div class="choose-icon"><i class="fa fa-smile-o"></i></div>
+                    <h4>Lowest Price</h4>
+                    <p>Lorem Ipsum is simply dummy text. Lorem Ipsum is simply dummy text of the printing and
+                        typesetting industry.</p>
+                    <a href="#">KNOW MORE</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- END: WHY CHOOSE US SECTION -->
+
+{{!-- Modal --}}
+
+<div class="modal fade" id="detail" tabindex="-1" role="dialog" aria-labelledby="detail" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detail" v-show="!editmode">Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {{#each productDetail}}
+                <ul class="list-unstyled">
+                    <li class="list-item">Product category: {{cateory}}{{name}}</li>
+                    <li class="list-item">Product Name: {{name}}</li>
+                    <li class="list-item">Price: {{price}}</li>
+                    <li class="list-item">Description: {{description}}</li>
+                </ul>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</div>

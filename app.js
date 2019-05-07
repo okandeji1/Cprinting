@@ -5,7 +5,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var passport = require('passport');
-var localStrategy = require('passport-local').Strategy;
 var flash = require('connect-flash');
 var validator = require('express-validator');
 var logger = require('morgan');
@@ -16,6 +15,7 @@ var users = require('./routes/clothes/user');
 var index = require('./routes/clothes/index');
 var products = require('./routes/clothes/product');
 var category = require('./routes/clothes/category');
+var order = require('./routes/clothes/order');
 
 var app = express();
 const blocks = {};
@@ -69,7 +69,7 @@ passport.deserializeUser((id, done) => {
 //  browser and user is not set, then automatically log the user out.
 // This usually happens when you stop your express server after login, your cookie still remains saved in the browser.
 app.use((req, res, next) => {
-    res.locals.login = req.isAuthenticated();
+    res.locals.user = req.session.user;
     res.locals.session = req.session;
     next();
 });
@@ -77,6 +77,7 @@ app.use((req, res, next) => {
 app.use('/user', users);
 app.use('/product', products);
 app.use('/category', category);
+app.use('/order', order);
 app.use('/', index);
 
 // catch 404 and forward to error handler

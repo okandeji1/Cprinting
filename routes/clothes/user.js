@@ -1,21 +1,90 @@
 var express = require('express');
 var router = express.Router();
-var passport = require('passport');
 var bcrypt = require('bcrypt-nodejs');
 var csrf = require('csurf');
 var con = require('../../model/config');
+var Cart = require('../../model/cart_model');
+var formidable = require('formidable')
 var csrfProtection = csrf();
 router.use(csrfProtection);
 const user = {}
 
 // dashboard
-router.get('/dashboard', (req, res) => {
+router.get('/dashboard', isLoggedIn, (req, res) => {
     res.render('clothes/admin/dashboard', { layout: 'layouts/admin' })
 })
 
 // User dashboard
-router.get('/account', (req, res) => {
-    res.render('clothes/account', { layout: 'layouts/clothes' })
+router.get('/account', isLoggedIn, async(req, res) => {
+    var success = req.flash('success')[0]
+    let user = req.session.user;
+    let userId = req.session.user[0].id
+    let userOrder = await user._myOrder(userId)
+    if (userOrder.error) {
+        console.log(userOrder.error)
+    }
+    var cart;
+    userOrder.forEach((order) => {
+        cart = new Cart(order.cart);
+        order.items = cart.generateArray()
+    })
+    res.render('clothes/account', { layout: 'layouts/home', user, userOrder: userOrder, _csrfToken: req.csrfToken(), success })
+})
+
+// Update User Account
+router.post('/update', (req, res, done) => {
+    let form = new formidable.IncomingForm();
+    form.uploadDir = './public/uploads/users';
+    form.keepExtensions = true;
+    form.maxFieldsSize = 10 * 1024 * 1024; //10mb
+    form.parse(req, async(err, fields, files) => {
+        let phone = fields.phone;
+        let address = fields.address;
+        let city = fields.city;
+        let state = fields.state;
+        let country = fields.country;
+        let image = files.image.path;
+        // let category = fields.category;
+
+        if (phone === '' || typeof phone === 'undefined') {
+            req.flash('error', 'Please phone is required')
+            res.redirect('/user/account')
+        }
+        if (address === '' || typeof address === 'undefined') {
+            req.flash('error', 'Please address is required')
+            res.redirect('/user/account')
+        }
+        if (city === '' || typeof city === 'undefined') {
+            req.flash('error', 'City is required')
+            res.redirect('/user/account')
+        }
+        if (state === '' || typeof state === 'undefined') {
+            req.flash('error', 'State is required')
+            res.redirect('/user/account')
+        }
+        if (country === '' || typeof country === 'undefined') {
+            req.flash('error', 'Country is required')
+            res.redirect('/user/account')
+        }
+        if (image === '' || typeof image === 'undefined') {
+            req.flash('error', 'Please upload your image')
+            res.redirect('/user/account')
+        }
+        let imagePath = image.split('/').pop()
+        let userId = req.session.user[0].id
+        let userData = [phone, address, city, state, country, imagePath]
+        let newProduct = await user._updateData(userData, userId);
+        if (newProduct.hasOwnProperty('error')) {
+            console.log(newProduct.error)
+            return
+        }
+        console.log('New product added')
+        req.flash('success', 'You have successfully updated your profile')
+        res.redirect('/user/account')
+        return
+        // }
+    });
+
 })
 
 // route for user logout
@@ -27,13 +96,13 @@ router.get('/logout', isLoggedIn, (req, res) => {
             if (err) {
                 console.log(err)
             } else {
-                req.flash('success', 'You have successfully logged out')
+                // req.flash('success', 'You have successfully logged out')
                 res.redirect('/user/login')
                 return
             }
         })
     } else {
-        // res.redirect('/login');
+        res.redirect('/404');
         return
     }
 });
@@ -45,7 +114,7 @@ router.use('/', notLoggedIn, (req, res, next) => {
 router.get('/login', (req, res, next) => {
     var messages = req.flash('error')
     res.render('clothes/login', {
-        layout: 'layouts/clothes',
+        layout: 'layouts/home',
         _csrfToken: req.csrfToken(),
         messages: messages,
         hasErrors: messages.length > 0
@@ -55,7 +124,7 @@ router.get('/login', (req, res, next) => {
 router.get('/signup', (req, res, next) => {
     var messages = req.flash('error')
     res.render('clothes/signup', {
-        // layout: 'layouts/clothes',
+        layout: 'layouts/home',
         _csrfToken: req.csrfToken(),
         messages: messages,
         hasErrors: messages.length > 0
@@ -108,6 +177,11 @@ router.post('/login', async(req, res) => {
                 if (err) {
                     console.log(err)
                 } else {
+                    if (req.session.oldUrl) {
+                        var oldUrl = req.session.oldUrl
+                        req.session.oldUrl = null
+                        res.redirect(oldUrl);
+                    }
                     if (!loginUser[0].is_admin) {
                         res.redirect('/user/account')
                         return
@@ -193,10 +267,19 @@ router.post('/signup', async(req, res) => {
             console.log(userReg.error)
             return
         }
-        req.flash('You have successfully registered')
-        res.redirect('/user/account')
+        if (req.session.oldUrl) {
+            var oldUrl = req.session.oldUrl
+            req.session.oldUrl = null;
+            res.redirect(oldUrl);
+        } else {
+            req.flash('You have successfully registered')
+            res.redirect('/user/account')
+        }
+
     }
 });
+
+module.exports = router;
 
 // Encrypt password
 function encryptPassword(password) {
@@ -208,7 +291,7 @@ function validPassword(password, pwd) {
 }
 // Force user to login
 function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
+    if (req.session.user && req.cookies.user_sid) {
         return next();
     }
     req.session.oldUrl = req.url;
@@ -220,34 +303,6 @@ function notLoggedIn(req, res, next) {
         return next();
     }
     res.redirect('/user/login');
-}
-
-// Delete user 
-user._deleteUser = (id) => {
-    return new Promise(resolved => {
-        con.realConnect.query('DELETE FROM `users` WHERE `id` = ?', [id], (err, rows) => {
-            if (err) {
-                resolved({ "error": err });
-            } else {
-                resolved('The template has been deleted');
-            }
-        });
-    })
-}
-
-// Update user info
-user._editProduct = (id) => {
-    return new Promise((resolved, reject) => {
-        try {
-            con.realConnect.query('UPDATE `users` SET `is_deliver` = 1 WHERE `id` = ?', id, (error, result) => {
-                resolved(error ? { "error": error } : { "data": result })
-            })
-        } catch (error) {
-            resolved({ "error": error })
-            console.log(error)
-            return
-        }
-    })
 }
 
 // to check if the email and password match the details in the database 
@@ -276,4 +331,27 @@ user._registerUser = (userInfo) => {
     })
 }
 
-module.exports = router;
+user._updateData = (userData, userId) => {
+    return new Promise(resolved => {
+        try {
+            con.realConnect.query('UPDATE `users` SET `phone` = ?, `address` = ?, `city` = ?, `state` = ?, `country` = ?, `image` = ? WHERE `id` = ?', userData, userId, (err, rows) => {
+                resolved(err ? { 'error': err } : resolved(rows))
+            })
+        } catch (error) {
+            resolved(error)
+        }
+    })
+}
+
+// Fetch user order
+user._myOrder = (userId) => {
+    return new Promise(resolved => {
+        try {
+            con.realConnect.query('SELECT * FROM `orders` WHERE `user_id` = ?', userId, (err, done) => {
+                resolved(err ? { 'error': err } : resolved(done))
+            })
+        } catch (error) {
+            resolved(error)
+        }
+    })
+}
